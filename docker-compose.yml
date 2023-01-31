@@ -4,12 +4,12 @@ volumes:
   php-fpm-socket:
 
 services:
-  # composer:
-  #   image: composer:1.8
-  #   container_name: "todo-composer"
-  #   volumes:
-  #     - ./backend:/var/www
-  #   working_dir: /var/www
+  composer:
+    image: composer:1.8
+    container_name: "todo-composer"
+    volumes:
+      - ./backend:/var/www
+    working_dir: /var/www
 
   app:
     build: ./infrastructure/docker/php
