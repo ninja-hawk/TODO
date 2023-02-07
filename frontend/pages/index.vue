@@ -2,7 +2,18 @@
 <v-container fluid>
       <v-app-bar app clipped-right>
       <v-app-bar-nav-icon @click.stop="pushDrawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>TODO</v-toolbar-title>
+      <v-toolbar-title>
+        <v-text-field v-model="title" dense hide-details="false" @input="pushTitle"></v-text-field>
+      </v-toolbar-title>
+      <v-btn v-if="share" icon @click="pushShare">
+        <v-icon>mdi-link</v-icon>
+      </v-btn>
+      <v-btn v-else icon  @click="pushShare">
+        <v-icon>mdi-link-lock</v-icon>
+      </v-btn>
+      <v-spacer></v-spacer>
+      最終変更 {{now = new Date()}}
+
       <template #extension>
         <v-tabs
           v-model="tab"
@@ -47,7 +58,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import Todo from '~/components/Todo'
 import Total from '~/components/Total'
 
@@ -56,16 +67,29 @@ export default {
     Todo,
     Total
   },
-
   data: () => ({
     tab: null,
     items: [
       'Todo1', 'Todo2', 'Todo3','Todo4', 'Todo5', 'Todo6',
     ],
   }),
+  head() {
+  return {
+    // nuxt.config.jsの%sに反映される内容
+    title: this.title
+  }
+},
+
+
+  computed:{
+    ...mapGetters({
+      share: 'layout/share',
+      title: 'layout/title'
+    })
+  },
 
   methods: {
-    ...mapActions('layout', ['pushDrawer'])
+    ...mapActions('layout', ['pushDrawer','pushShare','pushTitle'])
   }
 }
 // window.addEventListener('beforeunload', function (e) {
@@ -75,3 +99,5 @@ export default {
 //   e.returnValue = '';
 // });
 </script>
+
+
