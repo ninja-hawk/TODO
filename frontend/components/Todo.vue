@@ -76,8 +76,10 @@
                   <div
                     :class="task.done && 'grey--text' || 'primary--text'"
                     class="ml-4"
-                    v-text="task.text"
-                  ></div>
+                  >
+                  <v-chip small style="font-size: 80%;">{{ $moment(task.due).format('MM/DD') }}</v-chip>
+                  {{task.text}}
+                  </div>
                 </template>
               </v-checkbox>
             </v-list-item-action>
@@ -101,21 +103,11 @@
 </template>
 
 <script>
+import TodoData from '@/assets/json/todo.json'
+
   export default {
-  layout () {
-    return 'todo'
-  },
     data: () => ({
-      tasks: [
-        {
-          done: false,
-          text: 'Foobar',
-        },
-        {
-          done: false,
-          text: 'Fizzbuzz',
-        },
-      ],
+      tasks: TodoData.todo1,
       newTask: null,
     }),
 
@@ -129,6 +121,7 @@
       remainingTasks () {
         return this.tasks.length - this.completedTasks
       },
+
     },
 
     methods: {
