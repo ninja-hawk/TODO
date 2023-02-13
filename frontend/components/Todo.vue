@@ -67,22 +67,53 @@
           ></v-divider>
 
           <v-list-item :key="`${i}-${task.text}`">
-            <v-list-item-action>
+            <!-- <v-list-item-action> -->
               <v-checkbox
                 v-model="task.done"
                 :color="task.done && 'grey' || 'primary'"
-              >
-                <template #label>
+              ></v-checkbox>
+                <!-- <template #label> -->
                   <div
                     :class="task.done && 'grey--text' || 'primary--text'"
                     class="ml-4"
                   >
-                  <v-chip small style="font-size: 80%;">{{ $moment(task.due).format('MM/DD') }}</v-chip>
-                  {{task.text}}
+                  <!-- タイムスタンプとミーティングフラグ -->
+                  <div v-show="!single">
+                    <v-chip v-if="task.due" small style="font-size: 50%;">
+                      {{ $moment(task.due).format('MM/DD HH:mm') }}
+                      <v-btn v-if="task.mtg" icon @click="task.mtg = !task.mtg">
+                        <v-icon color="red" size="x-small">mdi-human-greeting-proximity</v-icon>
+                      </v-btn>
+                      <v-btn v-if="!task.mtg" icon @click="task.mtg = !task.mtg">
+                        <v-icon size="x-small">mdi-human-greeting-proximity</v-icon>
+                      </v-btn>
+                    </v-chip>
+                    <v-chip v-else style="font-size: 50%;">
+                      set deadline
+                      <v-btn v-if="task.mtg" icon @click="task.mtg = !task.mtg">
+                        <v-icon color="red" size="x-small">mdi-human-greeting-proximity</v-icon>
+                      </v-btn>
+                      <v-btn v-if="!task.mtg" icon @click="task.mtg = !task.mtg">
+                        <v-icon size="x-small">mdi-human-greeting-proximity</v-icon>
+                      </v-btn>
+                    </v-chip>
                   </div>
-                </template>
-              </v-checkbox>
-            </v-list-item-action>
+                  <!-- TODO内容 -->
+                  {{task.text | omittedText(single)}}
+                  <!-- 優先フラグ -->
+                  <p v-show="!single" style="display: inline;">
+                    <v-btn v-if="task.priority" icon @click="task.priority = !task.priority">
+                      <v-icon color="red" size="small">mdi-exclamation-thick</v-icon>
+                    </v-btn>
+                    <v-btn v-if="!task.priority" icon @click="task.priority = !task.priority">
+                      <v-icon  size="small">mdi-exclamation-thick</v-icon>
+                    </v-btn>
+                  </p>
+
+                  </div>
+                <!-- </template> -->
+              <!-- </v-checkbox> -->
+            <!-- </v-list-item-action> -->
 
             <v-spacer></v-spacer>
 
@@ -106,11 +137,21 @@
 import TodoData from '@/assets/json/todo.json'
 
   export default {
+    filters: {
+      omittedText(text, single) {
+      return single && text.length > 6 ? text.slice(0, 6) + "…" : text;
+      },
+    },
+    props:{
+      single: {
+        type: Boolean,
+        default: false
+      },
+    },
     data: () => ({
-      tasks: TodoData.todo1,
+      tasks: TodoData[0].subjects[0].task,
       newTask: null,
     }),
-
     computed: {
       completedTasks () {
         return this.tasks.filter(task => task.done).length
@@ -123,7 +164,6 @@ import TodoData from '@/assets/json/todo.json'
       },
 
     },
-
     methods: {
       create () {
         this.tasks.push({

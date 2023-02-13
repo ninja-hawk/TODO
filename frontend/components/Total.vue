@@ -24,7 +24,7 @@
             :cols="12"
           >
             <strong>Todo {{j}}</strong>
-            <Todo />
+            <Todo single=false />
           </v-col>
         </v-row>
       </v-col>
