@@ -28,7 +28,7 @@
             v-for="item in items"
             :key="item"
           >
-            {{ item }}
+            {{ item.name }}
           </v-tab>
         </v-tabs>
       </template>
@@ -37,17 +37,15 @@
 
   <v-card color="basil">
 
-
-
     <v-tabs-items v-model="tab" continuous>
       <v-tab-item key="Total">
         <Total />
       </v-tab-item>
       <v-tab-item
         v-for="item in items"
-        :key="item"
+        :key="item.name"
       >
-        <strong>{{item}}</strong>
+        <strong>{{item.name}}</strong>
         <Todo />
       </v-tab-item>
     </v-tabs-items>
@@ -59,6 +57,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import TodoData from '@/assets/json/todo.json'
 import Todo from '~/components/Todo'
 import Total from '~/components/Total'
 
@@ -69,9 +68,7 @@ export default {
   },
   data: () => ({
     tab: null,
-    items: [
-      'Todo1', 'Todo2', 'Todo3','Todo4', 'Todo5', 'Todo6',
-    ],
+    items: TodoData[0].subjects
   }),
   head() {
   return {
@@ -83,13 +80,14 @@ export default {
 
   computed:{
     ...mapGetters({
-      share: 'layout/share',
-      title: 'layout/title'
+      share: 'todos/share',
+      title: 'todos/title'
     })
   },
 
   methods: {
-    ...mapActions('layout', ['pushDrawer','pushShare','pushTitle'])
+    ...mapActions('todos', ['pushShare','pushTitle']),
+    ...mapActions('layout', ['pushDrawer'])
   }
 }
 // window.addEventListener('beforeunload', function (e) {
