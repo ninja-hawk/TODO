@@ -3,7 +3,7 @@
       <v-app-bar app clipped-right>
       <v-app-bar-nav-icon @click.stop="pushDrawer"></v-app-bar-nav-icon>
       <v-toolbar-title>
-        <v-text-field v-model="title" dense hide-details="false" @input="pushTitle"></v-text-field>
+        <v-text-field v-model="title" dense hide-details="false"  class="font-weight-black" @input="pushTitle"></v-text-field>
       </v-toolbar-title>
       <v-btn v-if="share" icon @click="pushShare">
         <v-icon>mdi-link</v-icon>
