@@ -12,7 +12,8 @@
         <v-icon>mdi-link-lock</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
-      最終変更 {{now = new Date()}}
+      <p v-if="! $vuetify.breakpoint.xs">最終変更 {{new Date()}}</p>
+      <p v-else>最終変更 {{$moment(new Date()).format('MM/DD HH:mm')}}</p>
 
       <template #extension>
         <v-tabs
