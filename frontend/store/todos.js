@@ -6,6 +6,7 @@ export const state = () => ({
   subjects: [
     {
       id: 1,
+      todo_id: 1,
       name: "TODO1",
       task:
         [
@@ -41,6 +42,7 @@ export const state = () => ({
     },
     {
       id: 2,
+      todo_id: 1,
       name: "TODO2",
       task:
         [
@@ -75,6 +77,7 @@ export const state = () => ({
     },
     {
       id: 3,
+      todo_id: 1,
       name: "TODO3",
       task:
         [
@@ -100,6 +103,7 @@ export const state = () => ({
     },
     {
       id: 4,
+      todo_id: 1,
       name: "TODO4",
       task:
         [
