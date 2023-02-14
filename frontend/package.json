@@ -26,10 +26,15 @@
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/vuetify": "^1.12.3",
     "core-js": "^3.25.3",
+    "luxon": "^3.2.1",
     "nuxt": "^2.15.8",
+    "stylus": "^0.59.0",
     "vue": "^2.7.10",
+    "vue-ctk-date-time-picker": "^3.0.0-alpha.0",
+    "vue-datetime": "^1.0.0-beta.14",
     "vue-server-renderer": "^2.7.10",
-    "vue-template-compiler": "^2.7.10"
+    "vue-template-compiler": "^2.7.10",
+    "vuejs-datepicker": "^1.6.2"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
@@ -57,6 +62,7 @@
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-recommended-vue": "^1.4.0",
     "stylelint-config-standard": "^28.0.0",
+    "stylus-loader": "4",
     "vue-jest": "^3.0.4",
     "vue-onsenui": "^2.7.2"
   }

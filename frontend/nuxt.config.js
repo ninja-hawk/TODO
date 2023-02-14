@@ -21,6 +21,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     // "~/plugins/onsenui"
+    { src: '~/plugins/vue-ctk-date-time-picker', mode: 'client' }, //追加
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
