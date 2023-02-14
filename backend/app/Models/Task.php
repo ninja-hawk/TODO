@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Subject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,4 +16,9 @@ class Task extends Model
     protected $fillable = [
         'text','due', 'time', 'done', 'mtg', 'priority'
     ];
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
+    }
 }
