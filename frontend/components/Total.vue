@@ -7,7 +7,7 @@
         cols="12"
       >
         <strong>Total Todo</strong>
-        <Todo />
+        <Todo total="true" />
       </v-col>
       <v-col
         v-if="! $vuetify.breakpoint.xs"
@@ -17,14 +17,14 @@
       >
         <v-row>
           <v-col
-            v-for="j in 6"
+            v-for="j in subjects.length"
             :key="`${j}`"
-            :md="`${12/3}`"
-            :sm="`${12/3}`"
+            :md="`${subjects.length > 3 ? 4 : 12/subjects.length}`"
+            :sm="`${subjects.length > 3 ? 4 : 12/subjects.length}`"
             :cols="12"
           >
-            <strong>Todo {{j}}</strong>
-            <Todo single=false />
+            <strong>{{subjects[j-1].name}}</strong>
+            <Todo single=false :subjectnum="j-1" :subjectid="subjects[j-1].id"/>
           </v-col>
         </v-row>
       </v-col>
@@ -33,14 +33,18 @@
 </template>
 
 <script>
-
+import { mapGetters} from 'vuex'
 import Todo from '~/components/Todo'
 
 export default {
   components: {
     Todo,
   },
-
+  computed: {
+  ...mapGetters({
+    subjects: 'todos/subjects'
+  })
+  }
 }
 
 </script>

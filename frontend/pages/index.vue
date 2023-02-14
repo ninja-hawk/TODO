@@ -26,7 +26,7 @@
             Total
           </v-tab>
           <v-tab
-            v-for="item in items"
+            v-for="item in subjects"
             :key="item"
           >
             {{ item.name }}
@@ -43,11 +43,11 @@
         <Total />
       </v-tab-item>
       <v-tab-item
-        v-for="item in items"
-        :key="item.name"
+        v-for="i in subjects.length"
+        :key="subjects[i-1].name"
       >
-        <strong>{{item.name}}</strong>
-        <Todo />
+        <strong>{{subjects[i-1].name}}</strong>
+        <Todo :subjectnum="i-1" :subjectid="subjects[i-1].id" />
       </v-tab-item>
     </v-tabs-items>
   </v-card>
@@ -58,7 +58,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import TodoData from '@/assets/json/todo.json'
 import Todo from '~/components/Todo'
 import Total from '~/components/Total'
 
@@ -69,20 +68,20 @@ export default {
   },
   data: () => ({
     tab: null,
-    items: TodoData[0].subjects
   }),
   head() {
   return {
     // nuxt.config.jsの%sに反映される内容
     title: this.title
   }
-},
+  },
 
 
   computed:{
     ...mapGetters({
       share: 'todos/share',
-      title: 'todos/title'
+      title: 'todos/title',
+      subjects: 'todos/subjects'
     })
   },
 

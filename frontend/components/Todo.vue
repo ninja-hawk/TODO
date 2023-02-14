@@ -2,6 +2,7 @@
 <v-app>
   <v-container style="max-width: 500px">
     <v-text-field
+      v-show="!total"
       v-model="newTask"
       label="What are you working on?"
       solo
@@ -71,7 +72,7 @@
               <v-checkbox
                 :input-value="task.done"
                 :color="task.done && 'grey' || 'primary'"
-                @change="setDone(task.id)"
+                @change="setDone(task.id, task.subject_id)"
               ></v-checkbox>
 
                 <div
@@ -81,47 +82,44 @@
                   <!-- タイムスタンプ -->
                   <div v-show="!single">
                     <v-chip v-if="task.due" small  class="ma-2" style="font-size: 50%;">
-                      {{ $moment(task.due).format('MM/DD HH:mm') }}
+                      <input ref="newdate" type="date" :value="task.due" @change="setDue(task.id, task.subject_id,i)">
+                      <!-- {{ $moment(task.due).format('MM/DD HH:mm') }} -->
                       <!-- ミーティングフラグ -->
-                      <v-btn v-if="task.mtg" icon @click="setMtg (task.id)">
+                      <v-btn v-if="task.mtg" icon @click="setMtg (task.id, task.subject_id)">
                         <v-icon color="red" size="x-small">mdi-human-greeting-proximity</v-icon>
                       </v-btn>
-                      <v-btn v-if="!task.mtg" icon @click="setMtg (task.id)">
+                      <v-btn v-if="!task.mtg" icon @click="setMtg (task.id, task.subject_id)">
                         <v-icon size="x-small">mdi-human-greeting-proximity</v-icon>
                       </v-btn>
                     </v-chip>
                     <v-chip v-else class="ma-2" style="font-size: 50%;">
                       set deadline
-                      <v-btn v-if="task.mtg" icon @click="setMtg (task.id)">
+                      <v-btn v-if="task.mtg" icon @click="setMtg (task.id, task.subject_id)">
                         <v-icon color="red" size="x-small">mdi-human-greeting-proximity</v-icon>
                       </v-btn>
-                      <v-btn v-if="!task.mtg" icon @click="setMtg (task.id)">
+                      <v-btn v-if="!task.mtg" icon @click="setMtg (task.id, task.subject_id)">
                         <v-icon size="x-small">mdi-human-greeting-proximity</v-icon>
                       </v-btn>
                     </v-chip>
                   </div>
 
                   <!-- TODO内容 -->
-                  <v-text-field
+                  <input
+                    ref="newtask"
+                    type="text"
                     :value="task.text"
-                    dense
-                    variant="plain"
-                    hide-details="false"
-                    class="mx-auto"
-                    @keydown.enter="modifyTask(task.id, task.text)"
-                  >
+                    style="width:100%"
+                    @change="modifyTask(task.id, task.subject_id, i)"
+                  />
                     <!-- 優先フラグ -->
-                    <template #append>
-                      <p v-show="!single && !task.done">
-                        <v-btn v-if="task.priority" icon @click="setPriority (task.id)">
+                      <p v-show="!single && !task.done" style="display: inline;">
+                        <v-btn v-if="task.priority" icon @click="setPriority (task.id, task.subject_id)">
                           <v-icon color="red" size="small">mdi-exclamation-thick</v-icon>
                         </v-btn>
-                        <v-btn v-if="!task.priority" icon @click="setPriority (task.id)">
+                        <v-btn v-if="!task.priority" icon @click="setPriority (task.id, task.subject_id)">
                           <v-icon  size="small">mdi-exclamation-thick</v-icon>
                         </v-btn>
                       </p>
-                    </template>
-                  </v-text-field>
 
                 </div>
 
@@ -158,20 +156,36 @@ import { mapGetters, mapActions } from 'vuex'
         type: Boolean,
         default: false
       },
-      subjectId: {
+      subjectnum: {
         type: Number,
         default: 0
+      },
+      // 登録時に使うもの基本的にはタスクから取得
+      subjectid: {
+        type: Number,
+        default: 0
+      },
+      total: {
+        type: Boolean,
+        default: false
       }
     },
     data: () => ({
       newTask: null,
+      allTask: []
     }),
     computed: {
       ...mapGetters({
         subjects: 'todos/subjects'
       }),
       tasks () {
-        return this.subjects[this.subjectId].task
+        if(this.total){
+          this.getAllTask()
+          return this.allTask
+        }
+        else{
+          return this.subjects[this.subjectnum].task
+        }
       },
       completedTasks () {
         return this.tasks.filter(task => task.done).length
@@ -186,25 +200,29 @@ import { mapGetters, mapActions } from 'vuex'
     },
     methods: {
       ...mapActions('todos', ['pushTask', 'pushPriority', 'pushMtg', 'pushDue', 'pushDone','changeTask']),
+      getAllTask(){
+        this.subjects.forEach(element => {
+          this.allTask = this.allTask.concat(element.task)
+        });
+      },
       createNewTask () {
-        this.pushTask({subjectId: this.subjectId, newTask: this.newTask})
+        this.pushTask({subjectid: this.subjectid, newTask: this.newTask})
         this.newTask = null
       },
-      modifyTask (id, newtext){
-        this.changeTask({subjectId: this.subjectId, taskId: id, text: newtext})
+      modifyTask (id,sid,i){
+        this.changeTask({subjectid: sid, taskId: id, text: this.$refs.newtask[i].value})
       },
-      setDone (id){
-        this.pushDone({subjectId: this.subjectId, taskId: id})
+      setDone (id,sid){
+        this.pushDone({subjectid: sid, taskId: id})
       },
-      setPriority (id) {
-        this.pushPriority({subjectId: this.subjectId, taskId: id})
+      setPriority (id,sid) {
+        this.pushPriority({subjectid: sid, taskId: id})
       },
-      setMtg (id) {
-        this.pushMtg({subjectId: this.subjectId, taskId: id})
+      setMtg (id,sid) {
+        this.pushMtg({subjectid: sid, taskId: id})
       },
-      setDue (id, newDue) {
-        console.log("test")
-        this.pushDue({subjectId: this.subjectId, taskId: id, due: newDue})
+      setDue (id,sid,i) {
+        this.pushDue({subjectid: sid, taskId: id, due: this.$refs.newdate[i].value})
         this.modal = false
       },
     },
