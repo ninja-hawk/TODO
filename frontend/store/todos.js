@@ -3,7 +3,7 @@ export const state = () => ({
   title: "DEMO1",
   share: false,
   password: null,
-  author_id: 1,
+  user_id: 1,
   subjects: [
     {
       id: 1,
