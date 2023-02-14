@@ -55,6 +55,8 @@ fresh:
 	${PREFIX} docker compose exec app php artisan migrate:fresh
 fresh-seed:
 	${PREFIX} docker compose exec app php artisan migrate:fresh --seed
+route:
+	${PREFIX} docker compose exec app php artisan route:list
 composer-install:
 	${PREFIX} docker compose exec app composer install
 dump-autoload:
