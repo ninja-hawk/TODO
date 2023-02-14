@@ -81,19 +81,10 @@
                 >
                   <!-- タイムスタンプ -->
                   <div v-show="!single">
-                    <v-chip v-if="task.due" small  class="ma-2" style="font-size: 50%;">
+                    <v-chip small  class="ma-2" style="font-size: 50%;">
                       <input ref="newdate" type="date" :value="task.due" @change="setDue(task.id, task.subject_id,i)">
                       <!-- {{ $moment(task.due).format('MM/DD HH:mm') }} -->
                       <!-- ミーティングフラグ -->
-                      <v-btn v-if="task.mtg" icon @click="setMtg (task.id, task.subject_id)">
-                        <v-icon color="red" size="x-small">mdi-human-greeting-proximity</v-icon>
-                      </v-btn>
-                      <v-btn v-if="!task.mtg" icon @click="setMtg (task.id, task.subject_id)">
-                        <v-icon size="x-small">mdi-human-greeting-proximity</v-icon>
-                      </v-btn>
-                    </v-chip>
-                    <v-chip v-else class="ma-2" style="font-size: 50%;">
-                      set deadline
                       <v-btn v-if="task.mtg" icon @click="setMtg (task.id, task.subject_id)">
                         <v-icon color="red" size="x-small">mdi-human-greeting-proximity</v-icon>
                       </v-btn>
@@ -144,87 +135,87 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 
-
-  export default {
-    filters: {
-      omittedText(text, single) {
-      return single && text.length > 6 ? text.slice(0, 6) + "…" : text;
-      },
+export default {
+  filters: {
+    omittedText(text, single) {
+    return single && text.length > 6 ? text.slice(0, 6) + "…" : text;
     },
-    props:{
-      single: {
-        type: Boolean,
-        default: false
-      },
-      subjectnum: {
-        type: Number,
-        default: 0
-      },
-      // 登録時に使うもの基本的にはタスクから取得
-      subjectid: {
-        type: Number,
-        default: 0
-      },
-      total: {
-        type: Boolean,
-        default: false
+  },
+  props:{
+    single: {
+      type: Boolean,
+      default: false
+    },
+    subjectnum: {
+      type: Number,
+      default: 0
+    },
+    // 登録時に使うもの基本的にはタスクから取得
+    subjectid: {
+      type: Number,
+      default: 0
+    },
+    total: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data: () => ({
+    newTask: null,
+    allTask: []
+  }),
+  computed: {
+    ...mapGetters({
+      subjects: 'todos/subjects'
+    }),
+    tasks () {
+      if(this.total){
+        this.getAllTask()
+        return this.allTask
+      }
+      else{
+        return this.subjects[this.subjectnum].task
       }
     },
-    data: () => ({
-      newTask: null,
-      allTask: []
-    }),
-    computed: {
-      ...mapGetters({
-        subjects: 'todos/subjects'
-      }),
-      tasks () {
-        if(this.total){
-          this.getAllTask()
-          return this.allTask
-        }
-        else{
-          return this.subjects[this.subjectnum].task
-        }
-      },
-      completedTasks () {
-        return this.tasks.filter(task => task.done).length
-      },
-      progress () {
-        return this.completedTasks / this.tasks.length * 100
-      },
-      remainingTasks () {
-        return this.tasks.length - this.completedTasks
-      },
+    completedTasks () {
+      return this.tasks.filter(task => task.done).length
+    },
+    progress () {
+      return this.completedTasks / this.tasks.length * 100
+    },
+    remainingTasks () {
+      return this.tasks.length - this.completedTasks
+    },
 
+  },
+  methods: {
+    ...mapActions('todos', ['pushTask', 'pushPriority', 'pushMtg', 'pushDue', 'pushDone','changeTask']),
+    getAllTask(){
+      this.allTask = []
+      this.subjects.forEach(element => {
+        this.allTask = this.allTask.concat(element.task)
+      });
     },
-    methods: {
-      ...mapActions('todos', ['pushTask', 'pushPriority', 'pushMtg', 'pushDue', 'pushDone','changeTask']),
-      getAllTask(){
-        this.subjects.forEach(element => {
-          this.allTask = this.allTask.concat(element.task)
-        });
-      },
-      createNewTask () {
-        this.pushTask({subjectid: this.subjectid, newTask: this.newTask})
-        this.newTask = null
-      },
-      modifyTask (id,sid,i){
-        this.changeTask({subjectid: sid, taskId: id, text: this.$refs.newtask[i].value})
-      },
-      setDone (id,sid){
-        this.pushDone({subjectid: sid, taskId: id})
-      },
-      setPriority (id,sid) {
-        this.pushPriority({subjectid: sid, taskId: id})
-      },
-      setMtg (id,sid) {
-        this.pushMtg({subjectid: sid, taskId: id})
-      },
-      setDue (id,sid,i) {
-        this.pushDue({subjectid: sid, taskId: id, due: this.$refs.newdate[i].value})
-        this.modal = false
-      },
+    createNewTask () {
+      this.pushTask({subjectid: this.subjectid, newTask: this.newTask})
+      this.newTask = null
     },
-  }
+    modifyTask (id,sid,i){
+      this.changeTask({subjectid: sid, taskId: id, text: this.$refs.newtask[i].value})
+    },
+    setDone (id,sid){
+      this.pushDone({subjectid: sid, taskId: id})
+    },
+    setPriority (id,sid) {
+      this.pushPriority({subjectid: sid, taskId: id})
+    },
+    setMtg (id,sid) {
+      this.pushMtg({subjectid: sid, taskId: id})
+    },
+    setDue (id,sid,i) {
+      this.pushDue({subjectid: sid, taskId: id, due: this.$refs.newdate[i].value})
+      this.modal = false
+    },
+  },
+}
 </script>
