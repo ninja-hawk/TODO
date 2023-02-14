@@ -3,6 +3,7 @@ export const state = () => ({
   title: "DEMO1",
   share: false,
   password: null,
+  author_id: 1,
   subjects: [
     {
       id: 1,
@@ -15,7 +16,7 @@ export const state = () => ({
             id: 1,
             done: false,
             text: "残余ネットワーク",
-            due: "2023-02-08",
+            due: "2023-02-09",
             mtg: true,
             priority: true
           },
@@ -24,7 +25,7 @@ export const state = () => ({
             id: 2,
             done: false,
             text: "整数計画の定式化",
-            due: "2023-02-08",
+            due: "2023-02-06",
             mtg: false,
             priority: false
           },
@@ -33,7 +34,7 @@ export const state = () => ({
             id: 3,
             done: false,
             text: "弱双対定理を使いこなせるか",
-            due: "2023-02-08",
+            due: "2023-02-10",
             mtg: false,
             priority: false
           },
@@ -146,7 +147,7 @@ export const mutations = {
       id: 11,
       done: false,
       text: response.newTask,
-      due: new Date(),
+      due: null,
       mtg: false,
       priority: false
     })
