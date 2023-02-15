@@ -16,6 +16,7 @@ class SubjectResource extends JsonResource
     {
         return [
             'id' => $this -> id,
+            'name' => $this -> name,
             'todo_id' => $this -> todo_id,
             'tasks' => new TaskCollection($this->tasks)
         ];
