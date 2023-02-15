@@ -2,7 +2,7 @@ const API_URL = `${process.env.API_BASE_URL}/api`
 
 export const state = () => ({
   todo: {
-  id: 1,
+  id: 0,
   title: "",
   share: false,
   password: null,
@@ -11,6 +11,9 @@ export const state = () => ({
 }})
 
 export const mutations = {
+  setTitleNull: (state) => {
+    state.todo.title = null
+  },
   setTodo: (state, response) => {
     state.todo = response
   },
@@ -73,6 +76,8 @@ export const getters = {
 
 export const actions = {
   async getTodo ({commit}, argument){
+    // レイアウトのため一度titleをゼロに
+    commit('setTitleNull')
     const response = await this.$axios.get(`${API_URL}/todos/${argument}`)
     commit('setTodo', response.data.data)
   },

@@ -12,8 +12,8 @@
         <v-icon>mdi-link-lock</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
-      <p v-if="! $vuetify.breakpoint.xs">最終変更 {{new Date()}}</p>
-      <p v-else>最終変更 {{$moment(new Date()).format('MM/DD HH:mm')}}</p>
+      <p v-if="! $vuetify.breakpoint.xs">最終変更 {{lastModified}}</p>
+      <p v-else>最終変更{{$moment(lastModified).format('MM/DD HH:mm')}}</p>
 
       <template #extension>
         <v-tabs
@@ -35,9 +35,8 @@
       </template>
     </v-app-bar>
 
-
-  <v-card color="basil">
-
+  <LoadingArea />
+  <v-card v-show="title !== null">
     <v-tabs-items v-model="tab" continuous>
       <v-tab-item key="Total">
         <Total />
@@ -60,11 +59,13 @@
 import { mapGetters, mapActions } from 'vuex'
 import Todo from '~/components/Todo'
 import Total from '~/components/Total'
+import LoadingArea from '~/components/LoadingArea'
 
 export default {
   components: {
     Todo,
-    Total
+    Total,
+    LoadingArea
   },
   data: () => ({
     tab: null,
@@ -81,7 +82,9 @@ export default {
     ...mapGetters({
       share: 'todos/share',
       title: 'todos/title',
-      subjects: 'todos/subjects'
+      subjects: 'todos/subjects',
+      isLoading: 'layout/isLoading',
+      lastModified: 'layout/lastModified'
     })
   },
 

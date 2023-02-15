@@ -4,18 +4,19 @@ export default function ({ $axios, store, redirect }) {
 
   $axios.onRequest(config => {
     console.log('onRequest', config)
-    // store.commit('api/loadingTrue')
+    store.commit('layout/loadingTrue')
   })
 
   $axios.onResponse(response => {
     console.log('onResponse', response)
-    // store.commit('api/loadingFalse')
+    store.commit('layout/loadingFalse')
+    store.commit('layout/setLastModified')
   })
   $axios.onError(error => {
     console.log('onError', error)
-    // store.commit('api/loadingFalse')
-    // if (error.response.status === 401) {
-    //   redirect('/login')
-    // }
+    store.commit('layout/loadingFalse')
+    if (error.response.status === 401 || error.response.status === 404) {
+      redirect('/')
+    }
   })
 }
