@@ -1,4 +1,4 @@
-const API_URL = `${process.env.API_BASE_URL}`
+const API_URL = `${process.env.API_BASE_URL}/api`
 
 export const state = () => ({
   todo: {
@@ -12,7 +12,6 @@ export const state = () => ({
 
 export const mutations = {
   setTodo: (state, response) => {
-    console.log(response)
     state.todo = response
   },
   setTitle: (state, response) => {
@@ -74,7 +73,7 @@ export const getters = {
 
 export const actions = {
   async getTodo ({commit}, argument){
-    const response = await this.$axios.get(`${API_URL}todos/${argument}`)
+    const response = await this.$axios.get(`${API_URL}/todos/${argument}`)
     commit('setTodo', response.data.data)
   },
   pushShare ({ commit }){
