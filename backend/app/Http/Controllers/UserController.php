@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,8 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return response()->json($users,Response::HTTP_OK);
+        return new UserCollection(User::all());
     }
 
     /**
@@ -47,8 +48,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $users = User::find($id)->todos;
-        return response()->json($users,Response::HTTP_OK);
+        return new UserResource(User::findOrFail($id));
     }
 
     /**
