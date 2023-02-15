@@ -97,12 +97,13 @@ export default {
     ...mapActions('layout', ['pushDrawer'])
   }
 }
-// window.addEventListener('beforeunload', function (e) {
-//   // イベントをキャンセルする
-//   e.preventDefault();
-//   // Chrome では returnValue を設定する必要がある
-//   e.returnValue = '';
-// });
+
+window.addEventListener('beforeunload', function (e) {
+      // イベントをキャンセルする
+      e.preventDefault();
+      // Chrome では returnValue を設定する必要がある
+      e.returnValue = '';
+});
 </script>
 
 
