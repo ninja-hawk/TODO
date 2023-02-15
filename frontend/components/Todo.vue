@@ -23,8 +23,8 @@
     <h2 class="text-h4 success--text pl-4">
       Tasks:&nbsp;
       <v-fade-transition leave-absolute>
-        <span :key="`tasks-${tasks.length}`">
-          {{ tasks.length }}
+        <span :key="`todoTasks-${todoTasks.length}`">
+          {{ todoTasks.length }}
         </span>
       </v-fade-transition>
     </h2>
@@ -55,13 +55,13 @@
 
     <v-divider class="mb-4"></v-divider>
 
-    <v-card v-if="tasks.length > 0">
+    <v-card v-if="todoTasks.length > 0">
       <v-slide-y-transition
         class="py-0"
         group
         tag="v-list"
       >
-        <template v-for="(task, i) in tasks">
+        <template v-for="(task, i) in todoTasks">
           <v-divider
             v-if="i !== 0"
             :key="`${i}-divider`"
@@ -168,23 +168,23 @@ export default {
     ...mapGetters({
       subjects: 'todos/subjects'
     }),
-    tasks () {
+    todoTasks () {
       if(this.total){
         this.getAllTask()
         return this.allTask
       }
       else{
-        return this.subjects[this.subjectnum].task
+        return this.subjects[this.subjectnum].tasks
       }
     },
     completedTasks () {
-      return this.tasks.filter(task => task.done).length
+      return this.todoTasks.filter(task => task.done).length
     },
     progress () {
-      return this.completedTasks / this.tasks.length * 100
+      return this.completedTasks / this.todoTasks.length * 100
     },
     remainingTasks () {
-      return this.tasks.length - this.completedTasks
+      return this.todoTasks.length - this.completedTasks
     },
 
   },
@@ -193,7 +193,7 @@ export default {
     getAllTask(){
       this.allTask = []
       this.subjects.forEach(element => {
-        this.allTask = this.allTask.concat(element.task)
+        this.allTask = this.allTask.concat(element.tasks)
       });
     },
     createNewTask () {
