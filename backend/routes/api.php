@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\UserController;
@@ -25,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('/users', UserController::class);
 Route::resource('/todos', TodoController::class);
+Route::resource('/subjects', SubjectController::class);
 Route::resource('/tasks', TaskController::class);
 
 Route::put('/task/text/{id}', [TaskController::class, 'text']);

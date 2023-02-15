@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Resources\SubjectCollection;
+use App\Http\Resources\SubjectResource;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -68,7 +70,11 @@ class SubjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Subject::findOrFail($id)->update([
+            'name' => $request->name
+        ]);
+        $subject = new SubjectResource(Subject::findOrFail($id));
+        return response()->json($subject,200);
     }
 
     /**

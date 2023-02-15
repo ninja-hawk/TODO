@@ -12,8 +12,14 @@
         <v-icon>mdi-link-lock</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
-      <p v-if="! $vuetify.breakpoint.xs">最終変更 {{lastModified}}</p>
-      <p v-else>最終変更{{$moment(lastModified).format('MM/DD HH:mm')}}</p>
+      <div>
+        <LoadingArea />
+        <div v-show="!isLoading">
+          最終変更
+          <p v-if="! $vuetify.breakpoint.xs">{{lastModified}}</p>
+          <p v-else>{{$moment(lastModified).format('MM/DD HH:mm')}}</p>
+        </div>
+      </div>
 
       <template #extension>
         <v-tabs
@@ -27,7 +33,7 @@
           </v-tab>
           <v-tab
             v-for="item in subjects"
-            :key="item"
+            :key="item.id"
           >
             {{ item.name }}
           </v-tab>
@@ -43,9 +49,9 @@
       </v-tab-item>
       <v-tab-item
         v-for="i in subjects.length"
-        :key="subjects[i-1].name"
+        :key="`${subjects.id}-${i}`"
       >
-        <strong>{{subjects[i-1].name}}</strong>
+        <strong><input ref="nameindex" type="text" :value="subjects[i-1].name" @change="modifyName(subjects[i-1].id,i)"></strong>
         <Todo :subjectnum="i-1" :subjectid="subjects[i-1].id" />
       </v-tab-item>
     </v-tabs-items>
@@ -59,12 +65,13 @@
 import { mapGetters, mapActions } from 'vuex'
 import Todo from '~/components/Todo'
 import Total from '~/components/Total'
-// import LoadingArea from '~/components/LoadingArea'
+import LoadingArea from '~/components/LoadingArea'
 
 export default {
   components: {
     Todo,
     Total,
+    LoadingArea
   },
   data: () => ({
     tab: null,
@@ -92,10 +99,13 @@ export default {
   },
 
   methods: {
-    ...mapActions('todos', ['pushShare','pushTitle','getTodo']),
+    ...mapActions('todos', ['pushShare','pushTitle','getTodo','pushName']),
     ...mapActions('layout', ['pushDrawer']),
     modifyTitle(){
       this.pushTitle({id: this.$route.params.id, title: this.$refs.title.value})
+    },
+    modifyName(sid,i){
+      this.pushName({id: sid, name: this.$refs.nameindex[i-1].value})
     }
   }
 }

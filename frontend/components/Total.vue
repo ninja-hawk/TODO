@@ -18,7 +18,7 @@
         <v-row>
           <v-col
             v-for="j in subjects.length"
-            :key="`${j}`"
+            :key="`${subjects.id}-${j}`"
             :md="`${subjects.length > 3 ? 4 : 12/subjects.length}`"
             :sm="`${subjects.length > 3 ? 4 : 12/subjects.length}`"
             :cols="12"
