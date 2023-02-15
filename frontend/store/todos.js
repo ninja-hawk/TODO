@@ -29,7 +29,7 @@ export const mutations = {
   setTask: (state, response) => {
     state.todo.subjects.find(element => element.id === response.subjectid).tasks.push({
       subject_id: response.subjectid,
-      id: 11,
+      id: response.id,
       done: false,
       text: response.newTask,
       due: null,
@@ -93,22 +93,40 @@ export const actions = {
     commit('setPassword', argument)
     this.$axios.put(`${API_URL}/todos/${argument}`, {title: state.todo.title, share: state.todo.share, password: state.todo.password})
   },
-  pushTask ({commit}, argument){
-    commit('setTask', argument)
+  async pushTask ({state,commit}, argument){
+    // const response = await this.$axios.post(`${API_URL}/tasks/${argument.taskId}`, {
+    //   subject_id: argument.subjectid,
+    //   done: false,
+    //   text: argument.newTask,
+    //   due: null,
+    //   mtg: false,
+    //   priority: false
+    // });
+    // argument.id = response.data.id
+    // commit('setTask', argument)
   },
   changeTask ({commit}, argument){
     commit('setNewTask', argument)
+    this.$axios.put(`${API_URL}/task/text/${argument.taskId}`, {
+      text: argument.text,
+    })
   },
   pushDone ({commit}, argument){
     commit('setDone', argument)
+    this.$axios.put(`${API_URL}/task/done/${argument.taskId}`)
   },
   pushPriority ({commit}, argument){
     commit('setPriority', argument)
+    this.$axios.put(`${API_URL}/task/priority/${argument.taskId}`)
   },
   pushMtg ({commit}, argument){
     commit('setMtg', argument)
+    this.$axios.put(`${API_URL}/task/mtg/${argument.taskId}`)
   },
   pushDue ({commit}, argument){
     commit('setDue',argument)
+    this.$axios.put(`${API_URL}/task/due/${argument.taskId}`, {
+      due: argument.due,
+    })
   }
 }
