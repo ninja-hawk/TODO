@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Task;
 use App\Models\Todo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,5 +22,8 @@ class Subject extends Model
     {
         return $this->belongsTo(Todo::class);
     }
-
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }
