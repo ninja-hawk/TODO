@@ -1,6 +1,6 @@
 export default function ({ $axios, store, redirect }) {
-  // $axios.setHeader('Content-Type', 'application/json')
-  // $axios.setHeader('Accept', 'application/json')
+  $axios.setHeader('Content-Type', 'application/json')
+  $axios.setHeader('Accept', 'application/json')
 
   $axios.onRequest(config => {
     console.log('onRequest', config)

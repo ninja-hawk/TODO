@@ -3,12 +3,12 @@
       <v-app-bar app clipped-right>
       <v-app-bar-nav-icon @click.stop="pushDrawer"></v-app-bar-nav-icon>
       <v-toolbar-title>
-        <v-text-field v-model="title" dense hide-details="false"  class="font-weight-black" @input="pushTitle"></v-text-field>
+        <input ref="title" type="text" :value="title" @change="modifyTitle">
       </v-toolbar-title>
-      <v-btn v-if="share" icon @click="pushShare">
+      <v-btn v-if="share" icon @click="pushShare($route.params.id)">
         <v-icon>mdi-link</v-icon>
       </v-btn>
-      <v-btn v-else icon  @click="pushShare">
+      <v-btn v-else icon  @click="pushShare($route.params.id)">
         <v-icon>mdi-link-lock</v-icon>
       </v-btn>
       <v-spacer></v-spacer>
@@ -35,7 +35,7 @@
       </template>
     </v-app-bar>
 
-  <LoadingArea />
+
   <v-card v-show="title !== null">
     <v-tabs-items v-model="tab" continuous>
       <v-tab-item key="Total">
@@ -59,13 +59,12 @@
 import { mapGetters, mapActions } from 'vuex'
 import Todo from '~/components/Todo'
 import Total from '~/components/Total'
-import LoadingArea from '~/components/LoadingArea'
+// import LoadingArea from '~/components/LoadingArea'
 
 export default {
   components: {
     Todo,
     Total,
-    LoadingArea
   },
   data: () => ({
     tab: null,
@@ -94,7 +93,10 @@ export default {
 
   methods: {
     ...mapActions('todos', ['pushShare','pushTitle','getTodo']),
-    ...mapActions('layout', ['pushDrawer'])
+    ...mapActions('layout', ['pushDrawer']),
+    modifyTitle(){
+      this.pushTitle({id: this.$route.params.id, title: this.$refs.title.value})
+    }
   }
 }
 

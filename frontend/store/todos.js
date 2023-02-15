@@ -81,14 +81,17 @@ export const actions = {
     const response = await this.$axios.get(`${API_URL}/todos/${argument}`)
     commit('setTodo', response.data.data)
   },
-  pushShare ({ commit }){
+  pushShare ({ state, commit }, argument){
     commit('setShare')
+    this.$axios.put(`${API_URL}/todos/${argument}`, {title: state.todo.title, share: state.todo.share, password: state.todo.password})
   },
-  pushTitle ({commit}, argument){
-    commit('setTitle', argument)
+  pushTitle ({state, commit}, argument){
+    commit('setTitle', argument.title)
+    this.$axios.put(`${API_URL}/todos/${argument.id}`, {title: state.todo.title, share: state.todo.share, password: state.todo.password})
   },
-  pushPassword ({commit}, argument){
+  pushPassword ({state, commit}, argument){
     commit('setPassword', argument)
+    this.$axios.put(`${API_URL}/todos/${argument}`, {title: state.todo.title, share: state.todo.share, password: state.todo.password})
   },
   pushTask ({commit}, argument){
     commit('setTask', argument)
