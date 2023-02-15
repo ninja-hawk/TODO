@@ -40,14 +40,14 @@
 
     <v-tabs-items v-model="tab" continuous>
       <v-tab-item key="Total">
-        <Total />
+        <TotalDemo />
       </v-tab-item>
       <v-tab-item
         v-for="i in subjects.length"
         :key="subjects[i-1].name"
       >
         <strong>{{subjects[i-1].name}}</strong>
-        <Todo :subjectnum="i-1" :subjectid="subjects[i-1].id" />
+        <TodoDemo :subjectnum="i-1" :subjectid="subjects[i-1].id" />
       </v-tab-item>
     </v-tabs-items>
   </v-card>
@@ -58,13 +58,13 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import Todo from '~/components/Todo'
-import Total from '~/components/Total'
+import TodoDemo from '~/components/TodoDemo'
+import TotalDemo from '~/components/TotalDemo'
 
 export default {
   components: {
-    Todo,
-    Total
+    TodoDemo,
+    TotalDemo
   },
   data: () => ({
     tab: null,
@@ -79,14 +79,15 @@ export default {
 
   computed:{
     ...mapGetters({
-      share: 'todos/share',
-      title: 'todos/title',
-      subjects: 'todos/subjects'
+      share: 'tododemo/share',
+      title: 'tododemo/title',
+      subjects: 'tododemo/subjects'
     })
   },
 
+
   methods: {
-    ...mapActions('todos', ['pushShare','pushTitle']),
+    ...mapActions('tododemo', ['pushShare','pushTitle']),
     ...mapActions('layout', ['pushDrawer'])
   }
 }
