@@ -5,6 +5,7 @@ use App\Http\Resources\TaskCollection;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -36,7 +37,17 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $task = Task::create([
+            "subject_id" => $request->subject_id,
+            "done" => $request->done,
+            "text" => $request->text,
+            "time" => $request->time,
+            "due" => $request->due,
+            "mtg" => $request->mtg,
+            "priority" => $request->priority
+        ]);
+
+        return response()->json($task,200);
     }
 
     /**

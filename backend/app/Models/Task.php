@@ -14,7 +14,7 @@ class Task extends Model
     protected $table = 'tasks';
     // Eloquentで更新・登録可能
     protected $fillable = [
-        'text','due', 'time', 'done', 'mtg', 'priority'
+        'text','due', 'time', 'done', 'mtg', 'priority','subject_id'
     ];
 
     public function subject()

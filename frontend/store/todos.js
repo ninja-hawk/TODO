@@ -31,6 +31,7 @@ export const mutations = {
       subject_id: response.subjectid,
       id: response.id,
       done: false,
+      time: null,
       text: response.newTask,
       due: null,
       mtg: false,
@@ -93,17 +94,18 @@ export const actions = {
     commit('setPassword', argument)
     this.$axios.put(`${API_URL}/todos/${argument}`, {title: state.todo.title, share: state.todo.share, password: state.todo.password})
   },
-  async pushTask ({state,commit}, argument){
-    // const response = await this.$axios.post(`${API_URL}/tasks/${argument.taskId}`, {
-    //   subject_id: argument.subjectid,
-    //   done: false,
-    //   text: argument.newTask,
-    //   due: null,
-    //   mtg: false,
-    //   priority: false
-    // });
-    // argument.id = response.data.id
-    // commit('setTask', argument)
+  async pushTask ({commit}, argument){
+    const response = await this.$axios.post(`${API_URL}/tasks/`, {
+      subject_id: argument.subjectid,
+      done: false,
+      time: null,
+      text: argument.newTask,
+      due: null,
+      mtg: false,
+      priority: false
+    });
+    argument.id = response.data.id
+    commit('setTask', argument)
   },
   changeTask ({commit}, argument){
     commit('setNewTask', argument)
