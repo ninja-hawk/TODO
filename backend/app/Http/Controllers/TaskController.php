@@ -94,4 +94,51 @@ class TaskController extends Controller
     {
         //
     }
+
+    public function done($id)
+    {
+        $task = new TaskResource(Task::findOrFail($id));
+        Task::findOrFail($id)->update([
+            'done' => !$task->done,
+        ]);
+        $task = new TaskResource(Task::findOrFail($id));
+        return response()->json($task,200);
+    }
+    public function due(Request $request, $id)
+    {
+        Task::findOrFail($id)->update([
+            'due' => $request->due,
+        ]);
+        $task = new TaskResource(Task::findOrFail($id));
+        return response()->json($task,200);
+    }
+
+    public function mtg($id)
+    {
+        $task = new TaskResource(Task::findOrFail($id));
+        Task::findOrFail($id)->update([
+            'mtg' => !$task->mtg,
+        ]);
+        $task = new TaskResource(Task::findOrFail($id));
+        return response()->json($task,200);
+    }
+
+    public function priority($id)
+    {
+        $task = new TaskResource(Task::findOrFail($id));
+        Task::findOrFail($id)->update([
+            'priority' => !$task->priority,
+        ]);
+        $task = new TaskResource(Task::findOrFail($id));
+        return response()->json($task,200);
+    }
+    public function text(Request $request, $id)
+    {
+        Task::findOrFail($id)->update([
+            'text' => $request->text,
+        ]);
+        $task = new TaskResource(Task::findOrFail($id));
+        return response()->json($task,200);
+    }
+
 }
