@@ -198,6 +198,21 @@ export default {
       this.subjects.forEach(element => {
         this.allTask = this.allTask.concat(element.tasks)
       });
+      this.allTask.sort(function(x,y) {
+        if (x.due === null) {
+          return 1;
+        }
+
+        if (y.due === null) {
+          return -1;
+        }
+
+        if (x.due === y.due) {
+          return 0;
+        }
+
+        return x.due < y.due ? -1 : 1;
+      })
     },
     createNewTask () {
       this.pushTask({subjectid: this.subjectid, newTask: this.newTask})

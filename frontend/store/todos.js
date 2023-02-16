@@ -33,6 +33,25 @@ export const mutations = {
     const subject = state.todo.subjects.find(element => element.id === response.id)
     subject.name = response.name
   },
+  sortTasks: (state) => {
+    for (let i=0; i < state.todo.subjects.length; i++){
+      state.todo.subjects[i].tasks.sort(function(x,y) {
+        if (x.due === null) {
+          return 1;
+        }
+
+        if (y.due === null) {
+          return -1;
+        }
+
+        if (x.due === y.due) {
+          return 0;
+        }
+
+        return x.due < y.due ? -1 : 1;
+      })
+    }
+  },
   setTask: (state, response) => {
     state.todo.subjects.find(element => element.id === response.subjectid).tasks.push({
       subject_id: response.subjectid,
@@ -92,6 +111,7 @@ export const actions = {
     commit('setTitleNull')
     const response = await this.$axios.get(`${API_URL}/todos/${argument}`)
     commit('setTodo', response.data.data)
+    commit('sortTasks')
   },
   pushShare ({ state, commit }, argument){
     commit('setShare')
@@ -144,10 +164,12 @@ export const actions = {
     commit('setMtg', argument)
     this.$axios.put(`${API_URL}/task/mtg/${argument.taskId}`)
   },
-  pushDue ({commit}, argument){
-    commit('setDue',argument)
+  async pushDue ({commit}, argument){
+    await commit('setDue',argument)
     this.$axios.put(`${API_URL}/task/due/${argument.taskId}`, {
       due: argument.due,
     })
+    // 途中でリロードするとタスクを配列のインデックスで管理しているため後で失敗する
+    // commit('sortTasks')
   }
 }
