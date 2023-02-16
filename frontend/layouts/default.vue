@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer
-      v-model="drawer"
+      :value="drawer"
       class="pt-4"
       color="grey lighten-3"
       app
@@ -43,7 +43,7 @@ export default {
       },
       {
         name: "Demo TODO",
-        link: "#"
+        link: "demo"
       },
       {
         name: "Open",
@@ -75,16 +75,18 @@ export default {
     ...mapActions('todos', ['newOpen']),
 
     async transition(link){
-      console.log("test")
       switch(link){
         case "new": {
           const id = await this.newOpen()
-          console.log(id)
           this.$router.push(`/todo/${id}`)
           break
         }
+        case("demo"): {
+          this.$router.push('/')
+          break
+        }
         default:
-          // this.$router.push('/')
+          console.log("now developing")
       }
     }
   }
