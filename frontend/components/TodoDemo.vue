@@ -106,7 +106,7 @@
                     @change="modifyTask(task.id, task.subject_id, i)"
                   />
                     <!-- 優先フラグ -->
-                      <p v-show="!single && !task.done" style="display: inline;">
+                      <p v-show="single && !task.done" style="display: inline;">
                         <v-btn v-if="task.priority" icon @click="setPriority (task.id, task.subject_id)">
                           <v-icon color="red" size="small">mdi-exclamation-thick</v-icon>
                         </v-btn>
@@ -147,7 +147,7 @@ export default {
   props:{
     single: {
       type: Boolean,
-      default: false
+      default: true
     },
     subjectnum: {
       type: Number,

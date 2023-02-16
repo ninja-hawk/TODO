@@ -53,7 +53,7 @@ export const state = () => ({
             id: 14,
             done: false,
             text: "シンプレックスタブロー",
-            due: false,
+            due: null,
             mtg: false,
             priority: false
           },
