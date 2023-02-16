@@ -45,7 +45,7 @@
     </v-app-bar>
 
 
-  <v-card v-show="title !== null">
+  <v-card v-show="title !== ''">
     <v-tabs-items v-model="tab" continuous>
       <v-tab-item key="Total">
         <Total />

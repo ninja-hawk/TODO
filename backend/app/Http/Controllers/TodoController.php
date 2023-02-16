@@ -27,7 +27,14 @@ class TodoController extends Controller
      */
     public function create()
     {
-        //
+        $newtodo = Todo::create([
+            "title" => "Your Todo",
+            "share" => true,
+            "password" => null,
+            "user_id" => null
+        ]);
+        // $todo = new TodoResource(Todo::findOrFail($newtodo->id));
+        return response()->json($newtodo->id,200);
     }
 
     /**
@@ -53,14 +60,17 @@ class TodoController extends Controller
             return new TodoResource(Todo::findOrFail($id));
         }
         else{
-            $newtodo = Todo::create([
-                "title" => "Your Todo",
-                "share" => true,
-                "password" => null,
-                "user_id" => null
-            ]);
-            $todo = new TodoResource(Todo::findOrFail($newtodo->id));
-            return response()->json($todo,200);
+            //新たなid対策
+            //ここはcreateしてからしか受け付けない
+            // $newtodo = Todo::create([
+            //     "title" => "Your Todo",
+            //     "share" => true,
+            //     "password" => null,
+            //     "user_id" => null
+            // ]);
+            // $todo = new TodoResource(Todo::findOrFail($newtodo->id));
+            $error = array("error" => "You've Got Something Wrong wtih Prameters");
+            return response()->json($error,400);
         }
     }
 

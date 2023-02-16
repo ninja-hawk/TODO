@@ -12,7 +12,7 @@ export const state = () => ({
 
 export const mutations = {
   setTitleNull: (state) => {
-    state.todo.title = null
+    state.todo.title = ""
   },
   setTodo: (state, response) => {
     state.todo = response
@@ -83,6 +83,10 @@ export const getters = {
 }
 
 export const actions = {
+  async newOpen(){
+    const response = await this.$axios.get(`${API_URL}/todos/create`)
+    return response.data
+  },
   async getTodo ({commit}, argument){
     // レイアウトのため一度titleをゼロに
     commit('setTitleNull')

@@ -10,16 +10,15 @@
       mobile-breakpoint="xs"
     >
       <v-btn
-        v-for="n in 6"
-        :key="n"
-        :color="`grey ${n === 2 ? 'darken' : 'lighten'}-1`"
+        v-for="menu in menus"
+        :key="menu.name"
+        color="grey lighten-1"
         text
         block
         class="text-center mx-auto mb-9"
-        nuxt
-        to = "#"
+        @click="transition(menu.link)"
       >
-      TODO {{n}}
+      {{menu.name}}
       </v-btn>
     </v-navigation-drawer>
 
@@ -36,7 +35,34 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  // data: () => ({ drawer: null }),
+  data: () => ({
+    menus: [
+      {
+        name: "New TODO",
+        link: "new"
+      },
+      {
+        name: "Demo TODO",
+        link: "#"
+      },
+      {
+        name: "Open",
+        link: "#"
+      },
+      {
+        name: "Login",
+        link: "#"
+      },
+      {
+        name: "Sign Up",
+        link: "#"
+      },
+      {
+        name: "Logout",
+        link: "#"
+      }
+    ]
+   }),
 
   computed: {
     ...mapGetters({
@@ -45,7 +71,22 @@ export default {
   },
 
   methods: {
-    ...mapActions('layout', ['pushDrawer'])
+    ...mapActions('layout', ['pushDrawer']),
+    ...mapActions('todos', ['newOpen']),
+
+    async transition(link){
+      console.log("test")
+      switch(link){
+        case "new": {
+          const id = await this.newOpen()
+          console.log(id)
+          this.$router.push(`/todo/${id}`)
+          break
+        }
+        default:
+          // this.$router.push('/')
+      }
+    }
   }
 }
 </script>
