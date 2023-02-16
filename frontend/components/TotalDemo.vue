@@ -7,7 +7,7 @@
         cols="12"
       >
         <strong>Total Todo</strong>
-        <TodoDemo total="true" />
+        <TodoDemo :total="true" />
       </v-col>
       <v-col
         v-if="! $vuetify.breakpoint.xs"
@@ -18,13 +18,13 @@
         <v-row>
           <v-col
             v-for="j in subjects.length"
-            :key="`${j}`"
+            :key="`${subjects.id}-${j}`"
             :md="`${subjects.length > 3 ? 4 : 12/subjects.length}`"
             :sm="`${subjects.length > 3 ? 4 : 12/subjects.length}`"
             :cols="12"
           >
             <strong>{{subjects[j-1].name}}</strong>
-            <TodoDemo single=false :subjectnum="j-1" :subjectid="subjects[j-1].id"/>
+            <TodoDemo :single="false" :subjectnum="j-1" :subjectid="subjects[j-1].id"/>
           </v-col>
         </v-row>
       </v-col>

@@ -27,7 +27,7 @@
           </v-tab>
           <v-tab
             v-for="item in subjects"
-            :key="item"
+            :key="item.id"
           >
             {{ item.name }}
           </v-tab>
@@ -44,7 +44,7 @@
       </v-tab-item>
       <v-tab-item
         v-for="i in subjects.length"
-        :key="subjects[i-1].name"
+        :key="`${subjects.id}-${i}`"
       >
         <strong>{{subjects[i-1].name}}</strong>
         <TodoDemo :subjectnum="i-1" :subjectid="subjects[i-1].id" />

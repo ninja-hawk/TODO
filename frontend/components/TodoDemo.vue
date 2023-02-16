@@ -23,7 +23,7 @@
     <h2 class="text-h4 success--text pl-4">
       Tasks:&nbsp;
       <v-fade-transition leave-absolute>
-        <span :key="`todoTasks-${todoTasks.length}`">
+        <span :key="`todoTasks-${todoTasks.length}-${subjectid}`">
           {{ todoTasks.length }}
         </span>
       </v-fade-transition>
@@ -64,10 +64,10 @@
         <template v-for="(task, i) in todoTasks">
           <v-divider
             v-if="i !== 0"
-            :key="`${i}-divider`"
+            :key="`${i}-divider-${subjectid}`"
           ></v-divider>
 
-          <v-list-item :key="`${i}-${task.text}`">
+          <v-list-item :key="`${i}-${task.text}-${subjectid}`">
 
               <v-checkbox
                 :input-value="task.done"
