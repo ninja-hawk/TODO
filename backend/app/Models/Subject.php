@@ -15,7 +15,7 @@ class Subject extends Model
     protected $table = 'subjects';
     // Eloquentで更新・登録可能
     protected $fillable = [
-        'name'
+        'name', 'todo_id'
     ];
 
     public function todo()

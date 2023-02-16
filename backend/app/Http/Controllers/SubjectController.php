@@ -36,7 +36,12 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newsubject = Subject::create([
+            "todo_id" => $request->todo_id,
+            "name" => "New Todo"
+        ]);
+        $subject = new SubjectResource(Subject::findOrFail($newsubject->id));
+        return response()->json($subject,200);
     }
 
     /**

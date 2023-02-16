@@ -37,6 +37,9 @@
           >
             {{ item.name }}
           </v-tab>
+          <v-tab key="Add">
+            <v-icon>mdi-plus-circle-outline</v-icon>
+          </v-tab>
         </v-tabs>
       </template>
     </v-app-bar>
@@ -53,6 +56,18 @@
       >
         <strong><input ref="nameindex" type="text" :value="subjects[i-1].name" @change="modifyName(subjects[i-1].id,i)"></strong>
         <Todo :subjectnum="i-1" :subjectid="subjects[i-1].id" />
+      </v-tab-item>
+      <v-tab-item>
+        <v-row align-content="center">
+          <v-col align="center">
+            <v-card fill-height>
+                <v-btn  block color="primary" @click="pushSubject($route.params.id)">
+                    <v-icon>mdi-plus-circle-outline</v-icon>
+                    Add new Todo
+                </v-btn>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-tab-item>
     </v-tabs-items>
   </v-card>
@@ -99,7 +114,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('todos', ['pushShare','pushTitle','getTodo','pushName']),
+    ...mapActions('todos', ['pushShare','pushTitle','getTodo','pushName','pushSubject']),
     ...mapActions('layout', ['pushDrawer']),
     modifyTitle(){
       this.pushTitle({id: this.$route.params.id, title: this.$refs.title.value})

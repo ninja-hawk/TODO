@@ -7,7 +7,7 @@
         cols="12"
       >
         <strong>Total Todo</strong>
-        <Todo total="true" />
+        <Todo :total="true" />
       </v-col>
       <v-col
         v-if="! $vuetify.breakpoint.xs"
@@ -24,7 +24,7 @@
             :cols="12"
           >
             <strong>{{subjects[j-1].name}}</strong>
-            <Todo single=false :subjectnum="j-1" :subjectid="subjects[j-1].id"/>
+            <Todo :single="false" :subjectnum="j-1" :subjectid="subjects[j-1].id"/>
           </v-col>
         </v-row>
       </v-col>

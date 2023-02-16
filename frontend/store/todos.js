@@ -26,6 +26,9 @@ export const mutations = {
   setPassword: (state,response) => {
     state.todo.password = response
   },
+  setSubject: (state, response) => {
+    state.todo.subjects.push(response)
+  },
   setName: (state, response) => {
     const subject = state.todo.subjects.find(element => element.id === response.id)
     subject.name = response.name
@@ -97,6 +100,10 @@ export const actions = {
   pushPassword ({state, commit}, argument){
     commit('setPassword', argument)
     this.$axios.put(`${API_URL}/todos/${argument}`, {title: state.todo.title, share: state.todo.share, password: state.todo.password})
+  },
+  async pushSubject({commit}, argument){
+    const response = await this.$axios.post(`${API_URL}/subjects/`, {todo_id: argument})
+    commit('setSubject', response.data)
   },
   pushName ({commit}, argument){
     commit('setName', argument)
