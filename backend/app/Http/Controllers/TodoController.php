@@ -49,7 +49,19 @@ class TodoController extends Controller
      */
     public function show($id)
     {
-        return new TodoResource(Todo::findOrFail($id));
+        if(Todo::where('id', '=', $id)->exists()){
+            return new TodoResource(Todo::findOrFail($id));
+        }
+        else{
+            $newtodo = Todo::create([
+                "title" => "Your Todo",
+                "share" => true,
+                "password" => null,
+                "user_id" => null
+            ]);
+            $todo = new TodoResource(Todo::findOrFail($newtodo->id));
+            return response()->json($todo,200);
+        }
     }
 
     /**
