@@ -1,6 +1,7 @@
 const API_URL = `${process.env.API_BASE_URL}/api`
 
 export const state = () => ({
+  totalTasks: [],
   todo: {
   id: 0,
   title: "",
@@ -32,6 +33,26 @@ export const mutations = {
   setName: (state, response) => {
     const subject = state.todo.subjects.find(element => element.id === response.id)
     subject.name = response.name
+  },
+  setTotalTasks: (state) => {
+    state.todo.subjects.forEach(element => {
+      state.totalTasks = state.totalTasks.concat(element.tasks)
+    });
+    state.totalTasks.sort(function(x,y) {
+      if (x.due === null) {
+        return 1;
+      }
+
+      if (y.due === null) {
+        return -1;
+      }
+
+      if (x.due === y.due) {
+        return 0;
+      }
+
+      return x.due < y.due ? -1 : 1;
+    })
   },
   sortTasks: (state) => {
     for (let i=0; i < state.todo.subjects.length; i++){
@@ -98,6 +119,9 @@ export const getters = {
   },
   subjects: (state) => {
     return state.todo.subjects
+  },
+  totalTasks: (state) => {
+    return state.totalTasks
   }
 }
 
@@ -110,8 +134,9 @@ export const actions = {
     // レイアウトのため一度titleをゼロに
     commit('setTitleNull')
     const response = await this.$axios.get(`${API_URL}/todos/${argument}`)
-    commit('setTodo', response.data.data)
+    await commit('setTodo', response.data.data)
     commit('sortTasks')
+    commit('setTotalTasks')
   },
   pushShare ({ state, commit }, argument){
     commit('setShare')
@@ -165,8 +190,8 @@ export const actions = {
     this.$axios.put(`${API_URL}/task/mtg/${argument.taskId}`)
   },
   async pushDue ({commit}, argument){
-    await commit('setDue',argument)
-    this.$axios.put(`${API_URL}/task/due/${argument.taskId}`, {
+    commit('setDue',argument)
+    await this.$axios.put(`${API_URL}/task/due/${argument.taskId}`, {
       due: argument.due,
     })
     // 途中でリロードするとタスクを配列のインデックスで管理しているため後で失敗する

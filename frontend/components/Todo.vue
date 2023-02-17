@@ -169,7 +169,8 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      subjects: 'todos/subjects'
+      subjects: 'todos/subjects',
+      totalTasks: 'todos/totalTasks'
     }),
     todoTasks () {
       if(this.total){
@@ -194,25 +195,8 @@ export default {
   methods: {
     ...mapActions('todos', ['pushTask', 'pushPriority', 'pushMtg', 'pushDue', 'pushDone','changeTask']),
     getAllTask(){
-      this.allTask = []
-      this.subjects.forEach(element => {
-        this.allTask = this.allTask.concat(element.tasks)
-      });
-      this.allTask.sort(function(x,y) {
-        if (x.due === null) {
-          return 1;
-        }
-
-        if (y.due === null) {
-          return -1;
-        }
-
-        if (x.due === y.due) {
-          return 0;
-        }
-
-        return x.due < y.due ? -1 : 1;
-      })
+      console.log("getAllTask")
+      this.allTask = this.totalTasks
     },
     createNewTask () {
       this.pushTask({subjectid: this.subjectid, newTask: this.newTask})
@@ -230,9 +214,10 @@ export default {
     setMtg (id,sid) {
       this.pushMtg({subjectid: sid, taskId: id})
     },
-    setDue (id,sid,i) {
-      this.pushDue({subjectid: sid, taskId: id, due: this.$refs.newdate[i].value})
+    async setDue (id,sid,i) {
+      await this.pushDue({subjectid: sid, taskId: id, due: this.$refs.newdate[i].value})
       this.modal = false
+      // this.getAllTask()
     },
   },
 }
