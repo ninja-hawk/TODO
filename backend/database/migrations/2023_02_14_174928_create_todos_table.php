@@ -20,6 +20,7 @@ class CreateTodosTable extends Migration
             $table->boolean('share');
             $table->string('password')->nullable();
             $table->timestamps();
+            $table->softDeletes($column='deleted_at');
 
             $table->foreign('user_id')->references('id')->cascadeOnDelete()->on('users');
         });

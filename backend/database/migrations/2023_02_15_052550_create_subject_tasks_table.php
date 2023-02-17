@@ -21,6 +21,7 @@ class CreateSubjectTasksTable extends Migration
 
             $table->foreign('subject_id')->references('id')->cascadeOnDelete()->on('subjects');
             $table->foreign('task_id')->references('id')->cascadeOnDelete()->on('tasks');
+            $table->softDeletes($column='deleted_at');
         });
     }
 

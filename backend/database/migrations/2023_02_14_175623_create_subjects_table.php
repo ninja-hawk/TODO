@@ -18,6 +18,7 @@ class CreateSubjectsTable extends Migration
             $table->unsignedBigInteger('todo_id');
             $table->string('name', 30);
             $table->timestamps();
+            $table->softDeletes($column='deleted_at');
 
             $table->foreign('todo_id')->references('id')->cascadeOnDelete()->on('todos');
         });

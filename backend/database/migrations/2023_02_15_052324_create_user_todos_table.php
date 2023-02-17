@@ -18,6 +18,7 @@ class CreateUserTodosTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('todo_id');
             $table->timestamps();
+            $table->softDeletes($column='deleted_at');
 
             $table->foreign('user_id')->references('id')->cascadeOnDelete()->on('users');
             $table->foreign('todo_id')->references('id')->cascadeOnDelete()->on('todos');

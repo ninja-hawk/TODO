@@ -21,6 +21,7 @@ class CreateTodoSubjectsTable extends Migration
 
             $table->foreign('todo_id')->references('id')->cascadeOnDelete()->on('todos');
             $table->foreign('subject_id')->references('id')->cascadeOnDelete()->on('subjects');
+            $table->softDeletes($column='deleted_at');
         });
     }
 

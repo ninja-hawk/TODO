@@ -23,6 +23,7 @@ class CreateTasksTable extends Migration
             $table->boolean('mtg');
             $table->boolean('priority');
             $table->timestamps();
+            $table->softDeletes($column='deleted_at');
 
             $table->foreign('subject_id')->references('id')->cascadeOnDelete()->on('subjects');
 
