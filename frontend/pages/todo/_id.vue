@@ -108,7 +108,6 @@ export default {
 
   async mounted (){
     await this.getTodo(this.$route.params.id)
-    // this.inputFocus()
   },
 
   methods: {
