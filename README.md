@@ -14,6 +14,25 @@
     * Python v3.9.16
 * Docker v20.10.17
 
+## 開発環境設定
+```
+cp .env.example .env
+cd frontend
+cp .env.example .env
+```
+### frontend
+```
+cd frontend
+yarn install
+```
+### backend
+```
+winpty docker compose exec app bash
+composer install
+php artisan key:generate
+php artisan migrate:fresh --seed
+```
+
 ## makeコマンド
 #### dockerコンテナ起動
 ```
