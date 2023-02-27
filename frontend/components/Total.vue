@@ -23,7 +23,7 @@
             :sm="`${subjects.length > 3 ? 4 : 12/subjects.length}`"
             :cols="12"
           >
-            <strong>{{subjects[j-1].name}}</strong>
+            <!-- <strong>{{subjects[j-1].name}}</strong> -->
             <Todo :single="false" :subjectnum="j-1" :subjectid="subjects[j-1].id"/>
           </v-col>
         </v-row>

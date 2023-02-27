@@ -35,6 +35,7 @@ export const mutations = {
     subject.name = response.name
   },
   setTotalTasks: (state) => {
+    state.totalTasks = []
     state.todo.subjects.forEach(element => {
       state.totalTasks = state.totalTasks.concat(element.tasks)
     });
@@ -136,7 +137,7 @@ export const actions = {
     const response = await this.$axios.get(`${API_URL}/todos/${argument}`)
     await commit('setTodo', response.data.data)
     commit('sortTasks')
-    commit('setTotalTasks')
+    // commit('setTotalTasks')
   },
   pushShare ({ state, commit }, argument){
     commit('setShare')
@@ -195,6 +196,7 @@ export const actions = {
       due: argument.due,
     })
     // 途中でリロードするとタスクを配列のインデックスで管理しているため後で失敗する
+    // commit('setTotalTasks')
     // commit('sortTasks')
   }
 }

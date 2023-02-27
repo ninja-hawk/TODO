@@ -1,5 +1,6 @@
 <template>
 <v-app>
+  <strong><input v-if="!total" ref="nameinput" type="text" :value="subjects[subjectnum].name" @change="modifyName"></strong>
   <v-container style="max-width: 500px">
     <v-text-field
       v-show="!total"
@@ -193,10 +194,29 @@ export default {
 
   },
   methods: {
-    ...mapActions('todos', ['pushTask', 'pushPriority', 'pushMtg', 'pushDue', 'pushDone','changeTask']),
+    ...mapActions('todos', ['pushTask', 'pushPriority', 'pushMtg', 'pushDue', 'pushDone','changeTask','pushName']),
     getAllTask(){
-      console.log("getAllTask")
-      this.allTask = this.totalTasks
+      // console.log("getAllTask")
+      this.allTask = []
+      // this.allTask = this.totalTasks
+      this.subjects.forEach(element => {
+        this.allTask = this.allTask.concat(element.tasks)
+      });
+      // this.allTask.sort(function(x,y) {
+      //   if (x.due === null) {
+      //     return 1;
+      //   }
+
+      //   if (y.due === null) {
+      //     return -1;
+      //   }
+
+      //   if (x.due === y.due) {
+      //     return 0;
+      //   }
+
+      //   return x.due < y.due ? -1 : 1;
+      // })
     },
     createNewTask () {
       this.pushTask({subjectid: this.subjectid, newTask: this.newTask})
@@ -219,6 +239,9 @@ export default {
       this.modal = false
       // this.getAllTask()
     },
+    modifyName(){
+      this.pushName({id: this.subjects[this.subjectnum].id, name: this.$refs.nameinput.value})
+    }
   },
 }
 </script>

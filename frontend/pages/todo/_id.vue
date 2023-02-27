@@ -54,7 +54,6 @@
         v-for="i in subjects.length"
         :key="`${subjects.id}-${i}`"
       >
-        <strong><input ref="nameindex" type="text" :value="subjects[i-1].name" @change="modifyName(subjects[i-1].id,i)"></strong>
         <Todo :subjectnum="i-1" :subjectid="subjects[i-1].id" />
       </v-tab-item>
       <v-tab-item>
@@ -97,8 +96,6 @@ export default {
     title: this.title
   }
   },
-
-
   computed:{
     ...mapGetters({
       share: 'todos/share',
@@ -111,6 +108,7 @@ export default {
 
   async mounted (){
     await this.getTodo(this.$route.params.id)
+    // this.inputFocus()
   },
 
   methods: {
@@ -119,17 +117,16 @@ export default {
     modifyTitle(){
       this.pushTitle({id: this.$route.params.id, title: this.$refs.title.value})
     },
-    modifyName(sid,i){
-      this.pushName({id: sid, name: this.$refs.nameindex[i-1].value})
-    }
   }
 }
 
 window.addEventListener('beforeunload', function (e) {
-      // イベントをキャンセルする
-      e.preventDefault();
-      // Chrome では returnValue を設定する必要がある
-      e.returnValue = '';
+      if(this.isLoading){
+        // イベントをキャンセルする
+        e.preventDefault();
+        // Chrome では returnValue を設定する必要がある
+        e.returnValue = '';
+      }
 });
 </script>
 
