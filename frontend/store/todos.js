@@ -12,6 +12,17 @@ export const state = () => ({
 }})
 
 export const mutations = {
+  reset: (state) =>{
+    state.totalTasks = []
+    state.todo = {
+      id: 0,
+      title: "",
+      share: false,
+      password: null,
+      user_id: 1,
+      subjects: []
+    }
+  },
   setTitleNull: (state) => {
     state.todo.title = ""
   },
@@ -127,7 +138,8 @@ export const getters = {
 }
 
 export const actions = {
-  async newOpen(){
+  async newOpen({commit}){
+    commit('reset')
     const response = await this.$axios.get(`${API_URL}/todos/create`)
     return response.data
   },
