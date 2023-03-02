@@ -75,51 +75,7 @@
                 :color="task.done && 'grey' || 'primary'"
                 @change="setDone(task.id, task.subject_id)"
               ></v-checkbox>
-
-                <div
-                  :class="task.done && 'grey--text' || 'primary--text'"
-                  class="ml-4"
-                >
-                  <!-- タイムスタンプ -->
-                  <div >
-                    <v-chip small   :style="`font-size: ${single ? 50 : 10}%;`">
-                      <input v-if="single" ref="newdate" type="date" :style="`width: ${single ? 100 : 50}%; box-sizing: border-box;`" :value="task.due" @change="setDue(task.id, task.subject_id,i)">
-                      <div v-else-if="!single && task.due !== null">{{ $moment(task.due).format('MM/DD') }}</div>
-                      <div v-else>non set</div>
-                      <!-- ミーティングフラグ -->
-                      <div v-show="single">
-                        <v-btn v-if="task.mtg" icon @click="setMtg (task.id, task.subject_id)">
-                          <v-icon color="red" size="x-small">mdi-human-greeting-proximity</v-icon>
-                        </v-btn>
-                        <v-btn v-if="!task.mtg" icon @click="setMtg (task.id, task.subject_id)">
-                          <v-icon size="x-small">mdi-human-greeting-proximity</v-icon>
-                        </v-btn>
-                      </div>
-                    </v-chip>
-                  </div>
-
-                  <!-- TODO内容 -->
-                  <input
-                    ref="newtask"
-                    type="text"
-                    :value="task.text"
-                    :style="`width: ${single ? 100 : 50}%; box-sizing: border-box;`"
-                    @change="modifyTask(task.id, task.subject_id, i)"
-                  />
-                    <!-- 優先フラグ -->
-                      <p v-show="single && !task.done" style="display: inline;">
-                        <v-btn v-if="task.priority" icon @click="setPriority (task.id, task.subject_id)">
-                          <v-icon color="red" size="small">mdi-exclamation-thick</v-icon>
-                        </v-btn>
-                        <v-btn v-if="!task.priority" icon @click="setPriority (task.id, task.subject_id)">
-                          <v-icon  size="small">mdi-exclamation-thick</v-icon>
-                        </v-btn>
-                      </p>
-
-                </div>
-
-            <v-spacer></v-spacer>
-
+                <Task :task="task" :single="single" />
             <v-scroll-x-transition>
               <v-icon
                 v-if="task.done"
@@ -138,8 +94,12 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import Task from '~/components/Task'
 
 export default {
+  components: {
+    Task,
+  },
   filters: {
     omittedText(text, single) {
     return single && text.length > 6 ? text.slice(0, 6) + "…" : text;
@@ -194,50 +154,17 @@ export default {
 
   },
   methods: {
-    ...mapActions('todos', ['pushTask', 'pushPriority', 'pushMtg', 'pushDue', 'pushDone','changeTask','pushName']),
+    ...mapActions('todos', ['pushTask', 'pushDone','pushName']),
     getAllTask(){
-      // console.log("getAllTask")
       this.allTask = []
-      // this.allTask = this.totalTasks
-      this.subjects.forEach(element => {
-        this.allTask = this.allTask.concat(element.tasks)
-      });
-      // this.allTask.sort(function(x,y) {
-      //   if (x.due === null) {
-      //     return 1;
-      //   }
-
-      //   if (y.due === null) {
-      //     return -1;
-      //   }
-
-      //   if (x.due === y.due) {
-      //     return 0;
-      //   }
-
-      //   return x.due < y.due ? -1 : 1;
-      // })
+      this.allTask = this.totalTasks
     },
     createNewTask () {
       this.pushTask({subjectid: this.subjectid, newTask: this.newTask})
       this.newTask = null
     },
-    modifyTask (id,sid,i){
-      this.changeTask({subjectid: sid, taskId: id, text: this.$refs.newtask[i].value})
-    },
     setDone (id,sid){
       this.pushDone({subjectid: sid, taskId: id})
-    },
-    setPriority (id,sid) {
-      this.pushPriority({subjectid: sid, taskId: id})
-    },
-    setMtg (id,sid) {
-      this.pushMtg({subjectid: sid, taskId: id})
-    },
-    async setDue (id,sid,i) {
-      await this.pushDue({subjectid: sid, taskId: id, due: this.$refs.newdate[i].value})
-      this.modal = false
-      // this.getAllTask()
     },
     modifyName(){
       this.pushName({id: this.subjects[this.subjectnum].id, name: this.$refs.nameinput.value})

@@ -149,7 +149,7 @@ export const actions = {
     const response = await this.$axios.get(`${API_URL}/todos/${argument}`)
     await commit('setTodo', response.data.data)
     commit('sortTasks')
-    // commit('setTotalTasks')
+    commit('setTotalTasks')
   },
   pushShare ({ state, commit }, argument){
     commit('setShare')
@@ -207,8 +207,6 @@ export const actions = {
     await this.$axios.put(`${API_URL}/task/due/${argument.taskId}`, {
       due: argument.due,
     })
-    // 途中でリロードするとタスクを配列のインデックスで管理しているため後で失敗する
-    // commit('setTotalTasks')
-    // commit('sortTasks')
+    commit('sortTasks')
   }
 }
