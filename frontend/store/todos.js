@@ -183,6 +183,7 @@ export const actions = {
     });
     argument.id = response.data.id
     commit('setTask', argument)
+    commit('setTotalTasks')
   },
   changeTask ({commit}, argument){
     commit('setNewTask', argument)
@@ -208,5 +209,6 @@ export const actions = {
       due: argument.due,
     })
     commit('sortTasks')
+    commit('setTotalTasks')
   }
 }
