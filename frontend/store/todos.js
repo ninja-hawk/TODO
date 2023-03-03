@@ -41,6 +41,9 @@ export const mutations = {
   setSubject: (state, response) => {
     state.todo.subjects.push(response)
   },
+  setDeleteSubject: (state, response) => {
+    state.todo.subjects = state.todo.subjects.filter(element => element.id !== response)
+  },
   setName: (state, response) => {
     const subject = state.todo.subjects.find(element => element.id === response.id)
     subject.name = response.name
@@ -101,7 +104,7 @@ export const mutations = {
     const task = state.todo.subjects.find(element => element.id === response.subjectid).tasks.find(element => element.id === response.taskId)
     task.text = response.text
   },
-  deleteTask: (state, response) => {
+  setDeleteTask: (state, response) => {
     state.todo.subjects.find(element => element.id === response.subjectid).tasks = state.todo.subjects.find(element => element.id === response.subjectid).tasks.filter(element => element.id !== response.taskId)
   },
   setDone: (state, response) => {
@@ -170,6 +173,11 @@ export const actions = {
     const response = await this.$axios.post(`${API_URL}/subjects/`, {todo_id: argument})
     commit('setSubject', response.data)
   },
+  deleteSubject({commit}, argument){
+    commit('setDeleteSubject', argument)
+    commit('setTotalTasks')
+    this.$axios.delete(`${API_URL}/subjects/${argument}`)
+  },
   pushName ({commit}, argument){
     commit('setName', argument)
     this.$axios.put(`${API_URL}/subjects/${argument.id}`, {name: argument.name})
@@ -195,7 +203,7 @@ export const actions = {
     })
   },
   deleteTask ({commit}, argument){
-    commit('deleteTask', argument)
+    commit('setDeleteTask', argument)
     commit('setTotalTasks')
     this.$axios.delete(`${API_URL}/tasks/${argument.taskId}`)
   },

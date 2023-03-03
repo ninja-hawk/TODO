@@ -94,6 +94,17 @@
         </template>
       </v-slide-y-transition>
     </v-card>
+
+    <v-row
+      v-show="single && !total"
+      class="my-5 mx-1"
+      align="center"
+    >
+      <v-btn  block outlined color="error" @click="deleteSubject(subjectid)">
+          <v-icon>mdi-close-circle-outline</v-icon>
+          Delete Todo
+      </v-btn>
+    </v-row>
   </v-container>
 </v-app>
 </template>
@@ -163,7 +174,7 @@ export default {
 
   },
   methods: {
-    ...mapActions('todos', ['pushTask', 'pushDone','pushName', 'deleteTask']),
+    ...mapActions('todos', ['pushTask', 'pushDone','pushName', 'deleteTask', 'deleteSubject']),
     getAllTask(){
       this.allTask = []
       this.allTask = this.totalTasks
