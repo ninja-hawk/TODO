@@ -16,7 +16,7 @@ export default function ({ $axios, store, redirect }) {
     console.log('onError', error)
     store.commit('layout/loadingFalse')
     if (error.response.status === 401 || error.response.status === 404) {
-      redirect('/')
+      // redirect('/')
     }
   })
 }
