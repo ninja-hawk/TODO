@@ -100,7 +100,7 @@
       class="my-5 mx-1"
       align="center"
     >
-      <v-btn  block outlined color="error" @click="deleteSubject(subjectid)">
+      <v-btn  block outlined color="error" @click="checkDelete(subjectid)">
           <v-icon>mdi-close-circle-outline</v-icon>
           Delete Todo
       </v-btn>
@@ -195,6 +195,16 @@ export default {
     },
     mouseLeaveAction(){
         this.hoverFlag = false
+    },
+    checkDelete(sid){
+      if(this.todoTasks.length !== 0){
+        if(window.confirm("The todo list is not empty. Do you really want to delete it?")){
+          this.deleteSubject(sid)
+        }
+      }
+      else{
+        this.deleteSubject(sid)
+      }
     }
   },
 }
