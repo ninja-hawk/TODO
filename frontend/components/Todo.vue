@@ -77,12 +77,18 @@
               ></v-checkbox>
                 <Task :task="task" :single="single" />
             <v-scroll-x-transition>
-              <v-icon
+              <v-btn
                 v-if="task.done"
-                color="success"
+                icon
+                :color="`${hoverFlag && task.id === hoverIndex ? 'error' : 'success' }`"
+                @mouseover="mouseOverAction(task.id)"
+                @mouseleave="mouseLeaveAction()"
+                @click="deleteTask({taskId: task.id, subjectid: task.subject_id })"
               >
-                mdi-check
-              </v-icon>
+                <v-icon>
+                  {{hoverFlag && task.id === hoverIndex ? "mdi-close-circle-outline" : "mdi-check" }}
+                </v-icon>
+              </v-btn>
             </v-scroll-x-transition>
           </v-list-item>
         </template>
@@ -126,12 +132,15 @@ export default {
   },
   data: () => ({
     newTask: null,
-    allTask: []
+    allTask: [],
+    hoverFlag: false,
+    hoverIndex: null,
   }),
   computed: {
     ...mapGetters({
       subjects: 'todos/subjects',
-      totalTasks: 'todos/totalTasks'
+      totalTasks: 'todos/totalTasks',
+      isLoading: 'layout/isLoading'
     }),
     todoTasks () {
       if(this.total){
@@ -154,7 +163,7 @@ export default {
 
   },
   methods: {
-    ...mapActions('todos', ['pushTask', 'pushDone','pushName']),
+    ...mapActions('todos', ['pushTask', 'pushDone','pushName', 'deleteTask']),
     getAllTask(){
       this.allTask = []
       this.allTask = this.totalTasks
@@ -168,6 +177,13 @@ export default {
     },
     modifyName(){
       this.pushName({id: this.subjects[this.subjectnum].id, name: this.$refs.nameinput.value})
+    },
+    mouseOverAction(index){
+        this.hoverFlag = true
+        this.hoverIndex = index
+    },
+    mouseLeaveAction(){
+        this.hoverFlag = false
     }
   },
 }

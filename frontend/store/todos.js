@@ -101,6 +101,10 @@ export const mutations = {
     const task = state.todo.subjects.find(element => element.id === response.subjectid).tasks.find(element => element.id === response.taskId)
     task.text = response.text
   },
+  deleteTask: (state, response) => {
+    console.log(response)
+    state.todo.subjects.find(element => element.id === response.subjectid).tasks = state.todo.subjects.find(element => element.id === response.subjectid).tasks.filter(element => element.id !== response.taskId)
+  },
   setDone: (state, response) => {
     const task = state.todo.subjects.find(element => element.id === response.subjectid).tasks.find(element => element.id === response.taskId)
     task.done = !task.done
@@ -190,6 +194,11 @@ export const actions = {
     this.$axios.put(`${API_URL}/task/text/${argument.taskId}`, {
       text: argument.text,
     })
+  },
+  deleteTask ({commit}, argument){
+    commit('deleteTask', argument)
+    commit('setTotalTasks')
+    this.$axios.delete(`${API_URL}/tasks/${argument.taskId}`)
   },
   pushDone ({commit}, argument){
     commit('setDone', argument)
