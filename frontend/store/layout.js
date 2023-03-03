@@ -1,7 +1,7 @@
 export const state = () => ({
   drawer: false,
   isLoading: false,
-  lastModified: null
+  lastModified: new Date()
 })
 
 export const mutations = {
@@ -14,8 +14,8 @@ export const mutations = {
   loadingFalse: state => {
     state.isLoading = false
   },
-  setLastModified: state => {
-    state.lastModified = new Date()
+  setLastModified: (state, response) => {
+    state.lastModified = new Date(response.updated_at)
   }
 }
 
@@ -35,4 +35,7 @@ export const actions = {
   pushDrawer ({ commit }){
     commit('setDrawer')
   },
+  pushLastModified({commit}, argument){
+    commit('setLastModified', argument)
+  }
 }

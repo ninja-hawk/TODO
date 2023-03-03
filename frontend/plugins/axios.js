@@ -9,8 +9,8 @@ export default function ({ $axios, store, redirect }) {
 
   $axios.onResponse(response => {
     console.log('onResponse', response)
+    store.dispatch('layout/pushLastModified', response.data)
     store.commit('layout/loadingFalse')
-    store.commit('layout/setLastModified')
   })
   $axios.onError(error => {
     console.log('onError', error)

@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     use HasFactory;
-
+    // subjectテーブルのupdated_atを更新
+    protected $touches = ['subject'];
     // モデルに関連付けるテーブル
     protected $table = 'tasks';
     // Eloquentで更新・登録可能

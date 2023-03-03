@@ -18,6 +18,7 @@ class SubjectResource extends JsonResource
             'id' => $this -> id,
             'name' => $this -> name,
             'todo_id' => $this -> todo_id,
+            'updated_at' => $this -> updated_at,
             'tasks' => new TaskCollection($this->tasks)
         ];
     }

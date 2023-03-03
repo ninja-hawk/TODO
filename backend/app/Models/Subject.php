@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 class Subject extends Model
 {
     use HasFactory;
-
+    // todoテーブルのupdated_atを更新
+    protected $touches = ['todo'];
     // モデルに関連付けるテーブル
     protected $table = 'subjects';
     // Eloquentで更新・登録可能

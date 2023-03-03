@@ -17,7 +17,9 @@ class TodoController extends Controller
      */
     public function index()
     {
-        return new TodoCollection(Todo::all());
+        // collectionはrouteで直接返す用
+        // data->dataの入れ子になる
+        // return new TodoCollection(Todo::all());
     }
 
     /**
@@ -57,7 +59,8 @@ class TodoController extends Controller
     public function show($id)
     {
         if(Todo::where('id', '=', $id)->exists()){
-            return new TodoResource(Todo::findOrFail($id));
+            $todo = new TodoResource(Todo::findOrFail($id));
+            return response()->json($todo,200);
         }
         else{
             //新たなid対策
