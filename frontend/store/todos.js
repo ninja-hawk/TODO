@@ -147,7 +147,7 @@ export const actions = {
     // レイアウトのため一度titleをゼロに
     commit('setTitleNull')
     const response = await this.$axios.get(`${API_URL}/todos/${argument}`)
-    await commit('setTodo', response.data.data)
+    await commit('setTodo', response.data)
     commit('sortTasks')
     commit('setTotalTasks')
   },
