@@ -90,6 +90,8 @@ class SubjectController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $subject = Subject::findOrFail($id);
+        $subject -> delete();
+        return response()->json($subject,200);
     }
 }

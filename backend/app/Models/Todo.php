@@ -6,10 +6,13 @@ use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Todo extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+    // 論理削除SoftCascade用
+    use \Askedio\SoftCascade\Traits\SoftCascadeTrait;
 
     // モデルに関連付けるテーブル
     protected $table = 'todos';
@@ -17,6 +20,8 @@ class Todo extends Model
     protected $fillable = [
         'title', 'share', 'password'
     ];
+    // 論理削除SoftCascade
+    protected $softCascade = ['subjects'];
 
     public function user()
     {
