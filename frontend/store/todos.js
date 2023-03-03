@@ -102,7 +102,6 @@ export const mutations = {
     task.text = response.text
   },
   deleteTask: (state, response) => {
-    console.log(response)
     state.todo.subjects.find(element => element.id === response.subjectid).tasks = state.todo.subjects.find(element => element.id === response.subjectid).tasks.filter(element => element.id !== response.taskId)
   },
   setDone: (state, response) => {
