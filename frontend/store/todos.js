@@ -5,7 +5,7 @@ export const state = () => ({
   todo: {
   id: 0,
   title: "",
-  share: false,
+  share: true,
   password: null,
   user_id: 1,
   subjects: []
