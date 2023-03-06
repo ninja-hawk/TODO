@@ -5,13 +5,13 @@
       <v-toolbar-title>
         <input ref="title" type="text" :value="title" @change="modifyTitle">
       </v-toolbar-title>
-      <v-btn v-if="share" icon @click="pushShare($route.params.id)">
+      <v-btn v-if="share" icon @click="changeShareFalse">
         <v-icon>mdi-link</v-icon>
       </v-btn>
-      <v-btn v-else icon  @click="pushShare($route.params.id)">
+      <v-btn v-else icon  @click="pushPasswordDialogTrue">
         <v-icon>mdi-link-lock</v-icon>
       </v-btn>
-      <v-spacer></v-spacer>
+      <v-spacer><PasswordDialog :todoId="$route.params.id" /></v-spacer>
       <div>
         <LoadingArea />
         <div v-show="!isLoading">
@@ -71,21 +71,24 @@
     </v-tabs-items>
   </v-card>
 
-
-  </v-container>
+</v-container>
 </template>
+
+
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import Todo from '~/components/Todo'
 import Total from '~/components/Total'
 import LoadingArea from '~/components/LoadingArea'
+import PasswordDialog from '~/components/PasswordDialog'
 
 export default {
   components: {
     Todo,
     Total,
-    LoadingArea
+    LoadingArea,
+    PasswordDialog
   },
   data: () => ({
     tab: null,
@@ -112,10 +115,16 @@ export default {
 
   methods: {
     ...mapActions('todos', ['pushShare','pushTitle','getTodo','pushName','pushSubject']),
-    ...mapActions('layout', ['pushDrawer']),
+    ...mapActions('layout', ['pushDrawer','pushPasswordDialogTrue', 'pushPasswordDialogFalse']),
     modifyTitle(){
       this.pushTitle({id: this.$route.params.id, title: this.$refs.title.value})
     },
+    changeShareFalse(){
+      if(window.confirm("Do you really want to stro sharing?")){
+        this.pushShare(this.$route.params.id)
+        this.pushPasswordDialogFalse()
+      }
+    }
   }
 }
 

@@ -166,8 +166,9 @@ export const actions = {
     this.$axios.put(`${API_URL}/todos/${argument.id}`, {title: state.todo.title, share: state.todo.share, password: state.todo.password})
   },
   pushPassword ({state, commit}, argument){
+    commit('setShare')
     commit('setPassword', argument)
-    this.$axios.put(`${API_URL}/todos/${argument}`, {title: state.todo.title, share: state.todo.share, password: state.todo.password})
+    this.$axios.put(`${API_URL}/todos/${argument.id}`, {title: state.todo.title, share: state.todo.share, password: argument.password})
   },
   async pushSubject({commit}, argument){
     const response = await this.$axios.post(`${API_URL}/subjects/`, {todo_id: argument})
@@ -226,5 +227,5 @@ export const actions = {
     })
     commit('sortTasks')
     commit('setTotalTasks')
-  }
+  },
 }

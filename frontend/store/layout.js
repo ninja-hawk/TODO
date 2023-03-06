@@ -1,7 +1,8 @@
 export const state = () => ({
   drawer: false,
   isLoading: false,
-  lastModified: new Date()
+  lastModified: new Date(),
+  passwordDialog: false
 })
 
 export const mutations = {
@@ -16,6 +17,12 @@ export const mutations = {
   },
   setLastModified: (state, response) => {
     state.lastModified = new Date(response.updated_at)
+  },
+  setPasswordDialogTrue: state => {
+    state.passwordDialog = true
+  },
+  setPasswordDialogFalse: state => {
+    state.passwordDialog = false
   }
 }
 
@@ -28,6 +35,9 @@ export const getters = {
   },
   lastModified: state => {
     return state.lastModified
+  },
+  passwordDialog: state => {
+    return state.passwordDialog
   }
 }
 
@@ -37,5 +47,11 @@ export const actions = {
   },
   pushLastModified({commit}, argument){
     commit('setLastModified', argument)
+  },
+  pushPasswordDialogTrue({commit}){
+    commit('setPasswordDialogTrue')
+  },
+  pushPasswordDialogFalse({commit}){
+    commit('setPasswordDialogFalse')
   }
 }
