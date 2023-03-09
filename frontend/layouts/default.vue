@@ -51,7 +51,7 @@ export default {
       },
       {
         name: "Login",
-        link: "#"
+        link: "login"
       },
       {
         name: "Sign Up",
@@ -81,6 +81,10 @@ export default {
           this.$router.push(`/todo/${id}`)
           break
         }
+        case("login"): {
+          this.login("google")
+          break
+        }
         case("demo"): {
           this.$router.push('/')
           break
@@ -88,7 +92,16 @@ export default {
         default:
           console.log("now developing")
       }
-    }
+    },
+    async login(provider) {
+      const API_URL = `${process.env.API_BASE_URL}/api`
+      try {
+        const response = await this.$axios.$get(`${API_URL}/login/${provider}`)
+        window.location.href = response
+      } catch (err) {
+        console.log(err)
+      }
+    },
   }
 }
 </script>

@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TodoController;
@@ -7,7 +8,6 @@ use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,6 +23,11 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+
+Route::group(['middleware' => ['session']], function () {
+    Route::get('login/{provider}', [SocialController::class,'redirect']);
+    Route::get('login/{provider}/callback',[SocialController::class,'callback']);
+});
 
 Route::resource('/users', UserController::class);
 Route::resource('/todos', TodoController::class);

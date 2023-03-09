@@ -3,6 +3,9 @@ export default function ({ $axios, store, redirect }) {
   $axios.setHeader('Accept', 'application/json')
 
   $axios.onRequest(config => {
+    if (store.state.token) {
+      config.headers.Authorization = `Bearer ${store.state.token}`
+    }
     console.log('onRequest', config)
     store.commit('layout/loadingTrue')
   })
