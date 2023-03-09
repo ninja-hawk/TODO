@@ -36,26 +36,28 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data: () => ({
-    menus: [
-      {
-        name: "New TODO",
-        link: "new"
-      },
+    defaultMenus: [
       {
         name: "Demo TODO",
         link: "demo"
+      },
+      {
+        name: "Login",
+        link: "login"
+      },
+    ],
+    loggedInMenu: [
+      {
+        name: "New TODO",
+        link: "new"
       },
       {
         name: "Open",
         link: "#"
       },
       {
-        name: "Login",
-        link: "login"
-      },
-      {
-        name: "Sign Up",
-        link: "#"
+        name: "Demo TODO",
+        link: "demo"
       },
       {
         name: "Logout",
@@ -66,8 +68,18 @@ export default {
 
   computed: {
     ...mapGetters({
+      loggedIn: 'loggedIn',
+      user: 'user',
       drawer: 'layout/drawer',
-    })
+    }),
+    menus() {
+      if(this.loggedIn){
+        return this.loggedInMenu
+      }
+      else {
+        return this.defaultMenus
+      }
+    }
   },
 
   methods: {

@@ -8,7 +8,17 @@ export const state = () => {
   }
 }
 
-export const getters = {}
+export const getters = {
+  user: (state) =>  {
+    return state.user
+  },
+  loggedIn: (state) =>  {
+    return state.loggedIn
+  },
+  token: (state) =>  {
+    return state.token
+  },
+}
 
 export const mutations = {
   setUser (state, { user }) {
