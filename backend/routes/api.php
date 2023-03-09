@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['session']], function () {
     Route::get('login/{provider}', [SocialController::class,'redirect']);
     Route::get('login/{provider}/callback',[SocialController::class,'callback']);
+    Route::delete('/logout/{id}', [UserController::class, 'logout']);
 });
 
 Route::resource('/users', UserController::class);

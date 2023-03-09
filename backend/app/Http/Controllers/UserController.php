@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -83,5 +84,11 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function logout($id)
+    {
+        $user = User::findOrFail($id);
+        Auth::logout($user);
+        return response()->json($user,200);
     }
 }

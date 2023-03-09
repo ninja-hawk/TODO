@@ -33,6 +33,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+const API_URL = `${process.env.API_BASE_URL}/api`
 
 export default {
   data: () => ({
@@ -44,7 +45,7 @@ export default {
       {
         name: "Login",
         link: "login"
-      },
+      }
     ],
     loggedInMenu: [
       {
@@ -61,7 +62,7 @@ export default {
       },
       {
         name: "Logout",
-        link: "#"
+        link: "logout"
       }
     ]
    }),
@@ -85,6 +86,7 @@ export default {
   methods: {
     ...mapActions('layout', ['pushDrawer']),
     ...mapActions('todos', ['newOpen']),
+    ...mapActions(['logout']),
 
     async transition(link){
       switch(link){
@@ -97,6 +99,10 @@ export default {
           this.login("google")
           break
         }
+        case("logout"): {
+          this.logout(this.user.id)
+          break
+        }
         case("demo"): {
           this.$router.push('/')
           break
@@ -106,7 +112,6 @@ export default {
       }
     },
     async login(provider) {
-      const API_URL = `${process.env.API_BASE_URL}/api`
       try {
         const response = await this.$axios.$get(`${API_URL}/login/${provider}`)
         window.location.href = response

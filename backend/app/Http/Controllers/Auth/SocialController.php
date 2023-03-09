@@ -21,12 +21,13 @@ class SocialController extends Controller
 
         if($user){
             $user -> update([
-                'remember_token' => $userSocial->refreshToken
+                'remember_token' => $userSocial->token
             ]);
         }else{
             $user = User::create([
                 'name'          => $userSocial->getName(),
                 'email'         => $userSocial->getEmail(),
+                'remember_token' => $userSocial->token,
                 'avatar'        => $userSocial->getAvatar(),
                 'provider_id'   => $userSocial->getId(),
                 'provider'      => $provider,

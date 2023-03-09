@@ -1,3 +1,4 @@
+const API_URL = `${process.env.API_BASE_URL}/api`
 const inBrowser = typeof window !== 'undefined'
 
 export const state = () => {
@@ -64,11 +65,11 @@ export const actions = {
     })
   },
 
-  logout ({ commit }) {
+  logout ({ commit }, argument) {
     commit('setUser', { user: null })
 
     // Revoke access token
-    return this.$axios.delete('/oauth/token/destroy').then(() => {
+    return this.$axios.delete(`${API_URL}/logout/${argument}`).then(() => {
       commit('setToken', { token: null })
     }).catch(e => {
       commit('setToken', { token: null })
