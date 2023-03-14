@@ -1,10 +1,13 @@
+import UniversalCookie from 'universal-cookie'
+const cookies = new UniversalCookie()
+
 export default function ({ $axios, store, redirect }) {
   $axios.setHeader('Content-Type', 'application/json')
   $axios.setHeader('Accept', 'application/json')
 
   $axios.onRequest(config => {
-    if (store.state.token) {
-      config.headers.Authorization = `Bearer ${store.state.token}`
+    if (cookies.get('todoLoggedIn')) {
+      config.headers.Authorization = `Bearer ${cookies.get('todoToken')}`
     }
     console.log('onRequest', config)
     store.commit('layout/loadingTrue')

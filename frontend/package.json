@@ -31,6 +31,7 @@
     "luxon": "^3.2.1",
     "nuxt": "^2.15.8",
     "stylus": "^0.59.0",
+    "universal-cookie": "^4.0.4",
     "vue": "^2.7.10",
     "vue-ctk-date-time-picker": "^3.0.0-alpha.0",
     "vue-datetime": "^1.0.0-beta.14",
