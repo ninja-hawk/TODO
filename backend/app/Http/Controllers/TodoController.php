@@ -30,7 +30,7 @@ class TodoController extends Controller
     public function create(Request $request)
     {
         $newtodo = Todo::create([
-            "title" => "Your Todo",
+            "title" => "My Todo",
             "share" => true,
             "password" => null,
             "user_id" => $request->query("user_id"),
