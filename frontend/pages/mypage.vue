@@ -100,26 +100,12 @@ export default {
           value: 'updated_at'
         },
       ],
-      items: [
-        {
-          id:1,
-          title: 'Frozen Yogurt',
-          share: 159,
-          updated_at: this.$moment(new Date()).format('MM/DD HH:mm'),
-        },
-        {
-          id:2,
-          title: 'Frozen Yogurt',
-          share: 159,
-          updated_at: this.$moment(new Date()).format('MM/DD HH:mm'),
-        },
-        {
-          id:3,
-          title: 'Frozen Yogurt',
-          share: 159,
-          updated_at: this.$moment(new Date()).format('MM/DD HH:mm'),
-        },
-      ],
+    }
+  },
+  head() {
+    return {
+      // nuxt.config.jsの%sに反映される内容
+      title: this.$cookies.get("todoUser").name
     }
   },
   computed:{
