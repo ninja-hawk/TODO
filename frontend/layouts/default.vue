@@ -59,7 +59,7 @@ export default {
       },
       {
         name: "Mypage",
-        link: "#"
+        link: "mypage"
       },
       {
         name: "Demo TODO",
@@ -103,6 +103,10 @@ export default {
         case "new": {
           const id = await this.newOpen()
           this.$router.push(`/todo/${id}`)
+          break
+        }
+        case "mypage": {
+          this.$router.push(`/mypage`)
           break
         }
         case("login"): {
