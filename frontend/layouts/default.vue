@@ -107,17 +107,16 @@ export default {
         }
         case("login"): {
           this.login("google")
-          this.$router.push('/mypage')
           break
         }
         case("logout"): {
           this.logout(this.$cookies.get('todoUserId'))
           this.setMenu()
-          this.$router.push('/')
+          this.$router.push('/demo')
           break
         }
         case("demo"): {
-          this.$router.push('/')
+          this.$router.push('/demo')
           break
         }
         default:

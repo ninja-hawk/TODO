@@ -2,7 +2,7 @@
   <v-container fluid>
       <v-app-bar app clipped-right>
       <v-app-bar-nav-icon @click.stop="pushDrawer"></v-app-bar-nav-icon>
-      <v-toolbar-title v-show="$cookies.get('todoLoggedIn')">
+      <v-toolbar-title v-if="$cookies.get('todoLoggedIn')">
         <v-avatar size="36px">
           <v-img
             :src="`${$cookies.get('todoUser').avatar}`"
