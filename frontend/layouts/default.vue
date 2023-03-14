@@ -54,10 +54,6 @@ export default {
         link: "new"
       },
       {
-        name: "Open",
-        link: "#"
-      },
-      {
         name: "Mypage",
         link: "mypage"
       },
@@ -101,7 +97,7 @@ export default {
     async transition(link){
       switch(link){
         case "new": {
-          const id = await this.newOpen()
+          const id = await this.newOpen(this.$cookies.get('todoUserId'))
           this.$router.push(`/todo/${id}`)
           break
         }

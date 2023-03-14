@@ -18,7 +18,7 @@ class Todo extends Model
     protected $table = 'todos';
     // Eloquentで更新・登録可能
     protected $fillable = [
-        'title', 'share', 'password'
+        'title', 'share', 'password','user_id'
     ];
     // 論理削除SoftCascade
     protected $softCascade = ['subjects'];

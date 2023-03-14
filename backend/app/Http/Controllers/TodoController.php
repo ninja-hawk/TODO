@@ -27,13 +27,13 @@ class TodoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $newtodo = Todo::create([
             "title" => "Your Todo",
             "share" => true,
             "password" => null,
-            "user_id" => null
+            "user_id" => $request->query("user_id"),
         ]);
         // $todo = new TodoResource(Todo::findOrFail($newtodo->id));
         return response()->json($newtodo->id,200);

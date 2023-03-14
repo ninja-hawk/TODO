@@ -144,9 +144,9 @@ export const getters = {
 }
 
 export const actions = {
-  async newOpen({commit}){
+  async newOpen({commit},argument){
     commit('reset')
-    const response = await this.$axios.get(`${API_URL}/todos/create`)
+    const response = await this.$axios.get(`${API_URL}/todos/create?user_id=${argument}`)
     return response.data
   },
   async getTodo ({commit}, argument){
