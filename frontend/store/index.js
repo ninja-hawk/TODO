@@ -14,12 +14,12 @@ export const getters = {
     return state.user
   },
   loggedIn: (state) =>  {
-    return this.$cookies.get('todoLoggedIn')
-    // return state.loggedIn
+    // return this.$cookies.get('todoLoggedIn')
+    return state.loggedIn
   },
   token: (state) =>  {
-    return this.$cookies.get('todoToken')
-    // return state.token
+    // return this.$cookies.get('todoToken')
+    return state.token
   },
 }
 

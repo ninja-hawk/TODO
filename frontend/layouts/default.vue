@@ -125,7 +125,6 @@ export default {
     async login(provider) {
       try {
         const response = await this.$axios.$get(`${API_URL}/login/${provider}`)
-        this.setMenu()
         window.location.href = response
       } catch (err) {
         console.log(err)
