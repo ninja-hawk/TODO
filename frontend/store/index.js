@@ -14,10 +14,12 @@ export const getters = {
     return state.user
   },
   loggedIn: (state) =>  {
-    return state.loggedIn
+    return this.$cookies.get('todoLoggedIn')
+    // return state.loggedIn
   },
   token: (state) =>  {
-    return state.token
+    return this.$cookies.get('todoToken')
+    // return state.token
   },
 }
 
@@ -25,6 +27,15 @@ export const mutations = {
   setUser (state, { user }) {
     state.user = user
     state.loggedIn = Boolean(user)
+    if (inBrowser) {
+      if (user) {
+        this.$cookies.set('todoUser', user)
+        this.$cookies.set('todoUserId', user.id)
+      } else {
+        // Logout
+        this.$cookies.remove('todoUser')
+      }
+    }
   },
 
   setToken (state, { token }) {
@@ -33,9 +44,10 @@ export const mutations = {
     // Store token in cookies
     if (inBrowser) {
       if (token) {
-        this.$cookies.set('token', token, { expires: new Date(Date.now() + (30*24*3600000)) })
+        this.$cookies.set('todoToken', token)
       } else {
-        this.$cookies.remove('token')
+        // Logout
+        this.$cookies.remove('todoToken')
       }
     }
   }
@@ -65,9 +77,10 @@ export const actions = {
     })
   },
 
-  logout ({ commit }, argument) {
+  async logout ({ commit }, argument) {
     commit('setUser', { user: null })
-
+    await this.$cookies.set('todoLoggedIn', false)
+    this.$cookies.remove('todoUserId')
     // Revoke access token
     return this.$axios.delete(`${API_URL}/logout/${argument}`).then(() => {
       commit('setToken', { token: null })

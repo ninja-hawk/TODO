@@ -37,6 +37,7 @@ const API_URL = `${process.env.API_BASE_URL}/api`
 
 export default {
   data: () => ({
+    menus: [],
     defaultMenus: [
       {
         name: "Demo TODO",
@@ -57,6 +58,10 @@ export default {
         link: "#"
       },
       {
+        name: "Mypage",
+        link: "#"
+      },
+      {
         name: "Demo TODO",
         link: "demo"
       },
@@ -67,26 +72,31 @@ export default {
     ]
    }),
 
+
   computed: {
     ...mapGetters({
       loggedIn: 'loggedIn',
       user: 'user',
       drawer: 'layout/drawer',
     }),
-    menus() {
-      if(this.loggedIn){
-        return this.loggedInMenu
-      }
-      else {
-        return this.defaultMenus
-      }
-    }
+  },
+  created() {
+    this.setMenu()
   },
 
   methods: {
     ...mapActions('layout', ['pushDrawer']),
     ...mapActions('todos', ['newOpen']),
     ...mapActions(['logout']),
+
+    setMenu(){
+      if(this.$cookies.get('todoLoggedIn')){
+        this.menus = this.loggedInMenu
+      }
+      else {
+        this.menus = this.defaultMenus
+      }
+    },
 
     async transition(link){
       switch(link){
@@ -100,7 +110,8 @@ export default {
           break
         }
         case("logout"): {
-          this.logout(this.user.id)
+          this.logout(this.$cookies.get('todoUserId'))
+          this.setMenu()
           break
         }
         case("demo"): {
@@ -114,6 +125,7 @@ export default {
     async login(provider) {
       try {
         const response = await this.$axios.$get(`${API_URL}/login/${provider}`)
+        this.setMenu()
         window.location.href = response
       } catch (err) {
         console.log(err)
