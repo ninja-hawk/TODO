@@ -33,7 +33,6 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-const API_URL = `${process.env.API_BASE_URL}/api`
 
 export default {
   data: () => ({
@@ -106,7 +105,7 @@ export default {
           break
         }
         case("login"): {
-          this.login("google")
+          this.$router.push(`/login`)
           break
         }
         case("logout"): {
@@ -121,14 +120,6 @@ export default {
         }
         default:
           console.log("now developing")
-      }
-    },
-    async login(provider) {
-      try {
-        const response = await this.$axios.$get(`${API_URL}/login/${provider}`)
-        window.location.href = response
-      } catch (err) {
-        console.log(err)
       }
     },
   }

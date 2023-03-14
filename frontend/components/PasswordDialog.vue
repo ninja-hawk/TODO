@@ -16,7 +16,7 @@
             ></v-text-field>
             <v-spacer></v-spacer>
             After login as author, password is not needed.
-            <nuxt-link to="#">Login</nuxt-link>
+            <p v-show="!$cookies.get('todoLoggedIn')" style="display: inline;"><nuxt-link to="/login">Login</nuxt-link></p>
           </v-container>
         </v-card-text>
         <v-card-actions>
