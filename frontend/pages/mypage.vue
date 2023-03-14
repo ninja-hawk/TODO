@@ -53,6 +53,16 @@
       </template>
     </v-data-table>
       <v-btn
+        small
+        block
+        color="primary"
+        class="my-5 mx-1"
+        align="center"
+        @click="createNewTodo">
+        <v-icon>mdi-plus-circle-outline</v-icon>
+        Add new Todo
+      </v-btn>
+      <v-btn
         v-show="selected.length !== 0"
         small
         block
@@ -118,10 +128,16 @@ export default {
     user: 'user/user'
   }),
   },
+  created() {
+    if(! this.$cookies.get('todoLoggedIn')){
+      this.$router.push(`/`)
+    }
+  },
   mounted(){
     this.getUser(this.$cookies.get('todoUserId'))
   },
   methods: {
+    ...mapActions('todos', ['newOpen']),
     ...mapActions('user', ['getUser','deleteTodo']),
     ...mapActions('layout', ['pushDrawer']),
     // 表示ボタンが押下された時に呼び出される。
@@ -134,6 +150,10 @@ export default {
     },
     moveTodo(item) {
       this.$router.push(`/todo/${item.id}`)
+    },
+    async createNewTodo(){
+      const id = await this.newOpen(this.$cookies.get('todoUserId'))
+      this.$router.push(`/todo/${id}`)
     }
   }
 }
