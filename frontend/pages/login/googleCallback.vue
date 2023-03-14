@@ -17,7 +17,7 @@ export default {
       await this.$store.commit('setToken', {token: response.access_token})
       this.$store.commit('setUser', {user: response.user})
       // this.$router.replaceはダメ。defaultのmountedが動かない
-      window.location.href = '/todo/26'
+      window.location.href = '/mypage'
     } catch (error) {
       console.log(error)
     }

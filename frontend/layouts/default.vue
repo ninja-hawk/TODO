@@ -50,12 +50,12 @@ export default {
     ],
     loggedInMenu: [
       {
-        name: "New TODO",
-        link: "new"
-      },
-      {
         name: "Mypage",
         link: "mypage"
+      },
+      {
+        name: "New TODO",
+        link: "new"
       },
       {
         name: "Demo TODO",
@@ -107,11 +107,13 @@ export default {
         }
         case("login"): {
           this.login("google")
+          this.$router.push('/mypage')
           break
         }
         case("logout"): {
           this.logout(this.$cookies.get('todoUserId'))
           this.setMenu()
+          this.$router.push('/')
           break
         }
         case("demo"): {
