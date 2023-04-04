@@ -2,7 +2,8 @@ export const state = () => ({
   drawer: false,
   isLoading: false,
   lastModified: new Date(),
-  passwordDialog: false
+  passwordDialog: false,
+  sortDialog: false
 })
 
 export const mutations = {
@@ -23,6 +24,12 @@ export const mutations = {
   },
   setPasswordDialogFalse: state => {
     state.passwordDialog = false
+  },
+  setSortDialogTrue: state => {
+    state.sortDialog = true
+  },
+  setSortDialogFalse: state => {
+    state.sortDialog = false
   }
 }
 
@@ -38,6 +45,9 @@ export const getters = {
   },
   passwordDialog: state => {
     return state.passwordDialog
+  },
+  sortDialog: state => {
+    return state.sortDialog
   }
 }
 
@@ -53,5 +63,11 @@ export const actions = {
   },
   pushPasswordDialogFalse({commit}){
     commit('setPasswordDialogFalse')
+  },
+  pushSortDialogTrue({commit}){
+    commit('setSortDialogTrue')
+  },
+  pushSortDialogFalse({commit}){
+    commit('setSortDialogFalse')
   }
 }

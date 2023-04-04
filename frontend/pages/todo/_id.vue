@@ -11,7 +11,7 @@
       <v-btn v-else icon  @click="pushPasswordDialogTrue">
         <v-icon>mdi-link-lock</v-icon>
       </v-btn>
-      <v-spacer><PasswordDialog :todoId="$route.params.id" /></v-spacer>
+      <v-spacer><PasswordDialog :todoId="$route.params.id" /><SortDialog /></v-spacer>
       <div>
         <LoadingArea />
         <div v-show="!isLoading">
@@ -39,6 +39,9 @@
           </v-tab>
           <v-tab key="Add">
             <v-icon>mdi-plus-circle-outline</v-icon>
+            Add
+            <v-icon>mdi-sort</v-icon>
+            Sort
           </v-tab>
         </v-tabs>
       </template>
@@ -59,10 +62,14 @@
       <v-tab-item>
         <v-row align-content="center">
           <v-col align="center">
-            <v-card fill-height>
-                <v-btn  block color="primary" @click="pushSubject($route.params.id)">
+            <v-card fill-height class="py-16">
+                <v-btn  block color="primary" class="my-4" @click="pushSubject($route.params.id)">
                     <v-icon>mdi-plus-circle-outline</v-icon>
                     Add new Todo
+                </v-btn>
+                <v-btn  block color="success" class="my-4" @click="pushSortDialogTrue">
+                    <v-icon>mdi-sort</v-icon>
+                    Sort Todo
                 </v-btn>
             </v-card>
           </v-col>
@@ -82,13 +89,15 @@ import Todo from '~/components/Todo'
 import Total from '~/components/Total'
 import LoadingArea from '~/components/LoadingArea'
 import PasswordDialog from '~/components/PasswordDialog'
+import SortDialog from '~/components/SortDialog'
 
 export default {
   components: {
     Todo,
     Total,
     LoadingArea,
-    PasswordDialog
+    PasswordDialog,
+    SortDialog
   },
   data: () => ({
     tab: null,
@@ -115,7 +124,7 @@ export default {
 
   methods: {
     ...mapActions('todos', ['pushShare','pushTitle','getTodo','pushName','pushSubject']),
-    ...mapActions('layout', ['pushDrawer','pushPasswordDialogTrue', 'pushPasswordDialogFalse']),
+    ...mapActions('layout', ['pushDrawer','pushPasswordDialogTrue', 'pushPasswordDialogFalse','pushSortDialogTrue', 'pushSortDialogFalse']),
     modifyTitle(){
       this.pushTitle({id: this.$route.params.id, title: this.$refs.title.value})
     },

@@ -122,6 +122,9 @@ export const mutations = {
   setDue: (state, response) => {
     const task = state.todo.subjects.find(element => element.id === response.subjectid).tasks.find(element => element.id === response.taskId)
     task.due = response.due
+  },
+  setSortSubject: (state, response) => {
+    state.todo.subjects = response
   }
 }
 
@@ -228,5 +231,8 @@ export const actions = {
     })
     commit('sortTasks')
     commit('setTotalTasks')
+  },
+  pushSortSubject ({commit}, argument){
+    commit('setSortSubject', argument)
   },
 }
